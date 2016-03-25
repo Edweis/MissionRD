@@ -69,15 +69,15 @@ public class FillLayer {
 		}
 
 		// ###print the frequency function for debug
-		System.out.println("\n*******Frequency function********");
-		for (int i=0; i<pos.size(); i++) {
-			System.out.print("\t" + pos.get(i));
-		}
-		System.out.println();
-		for (Integer i : f) {
-			System.out.print("\t" + i);
-		}
-		System.out.println("\n********End of Frequency Function**********");
+				System.out.println("\n*Frequency function********");
+				for (int i=0; i<pos.size(); i++) {
+					System.out.print("\t" + pos.get(i));
+				}
+				System.out.println();
+				for (Integer i : f) {
+					System.out.print("\t" + i);
+				}
+				System.out.println("\n*End of Frequency Function**********");
 
 		return f;
 	}
@@ -131,7 +131,24 @@ public class FillLayer {
 		case "i":
 			break;
 		}
-		return res;
+		
+		// ###print the rank list for debug
+		System.out.println("\n*Rank List********");
+		System.out.println("Rank");
+		for (Integer i : res) {
+			System.out.print("\t" + i);
+		}
+		
+		System.out.println();
+		System.out.println("Value");
+		for (Integer i : valeur) {
+			System.out.print("\t" + i);
+		}
+		System.out.println("\n*End of Frequency Function**********");
+
+		
+		
+		return valeur;
 	}
 
 }
