@@ -1,0 +1,159 @@
+package model;
+
+public class Item {
+
+	private int height, width, depth, x, y, z;
+	private boolean turn;
+
+	private int volume;
+
+	public Item(int h, int w, int d) {
+		height = h;
+		width = w;
+		depth = d;
+
+		volume = h * w * d;
+
+		x = y = z = 0;
+	}
+
+
+	public void switchDimension(String s) {
+		int p;
+		switch (s) {
+		case "wh":
+			p = height;
+			height = width;
+			width = p;
+			break;
+		case "hd":
+			p = height;
+			height = depth;
+			depth = p;
+			break;
+		case "dw":
+			p = depth;
+			depth = width;
+			width = p;
+			break;
+
+		case "hw":
+			p = height;
+			height = width;
+			width = p;
+			break;
+		case "dh":
+			p = height;
+			height = depth;
+			depth = p;
+			break;
+		case "wd":
+			p = depth;
+			depth = width;
+			width = p;
+			break;
+		}
+	}
+
+	/**
+	 * return the shortest edge of the item
+	 *
+	 * @return the int
+	 */
+	public int minEdge() {
+		int res = height;
+		if (width < res) {
+			res = width;
+		}
+		if (depth < res) {
+			res = depth;
+		}
+		return res;
+	}
+
+	/**
+	 * Return the longest edge of the item
+	 *
+	 * @return the int
+	 */
+	public int maxEdge() {
+		int res = height;
+		if (width > res) {
+			res = width;
+		}
+		if (depth > res) {
+			res = depth;
+		}
+		return res;
+	}
+
+	public String toString(){
+		return "h=" + height + " * w=" + width + " * d=" +depth;
+	}
+	
+	
+	
+	
+	
+	
+	// Getters and setters
+	public int getVolume() {
+		return volume;
+	}
+
+	public boolean isTurn() {
+		return turn;
+	}
+
+	public void setTurn(boolean turn) {
+		this.turn = turn;
+	}
+
+	public int getHeight() {
+		return height;
+	}
+
+	public void setHeight(int height) {
+		this.height = height;
+	}
+
+	public int getWidth() {
+		return width;
+	}
+
+	public void setWidth(int width) {
+		this.width = width;
+	}
+
+	public int getDepth() {
+		return depth;
+	}
+
+	public void setDepth(int depth) {
+		this.depth = depth;
+	}
+
+	public int getX() {
+		return x;
+	}
+
+	public void setX(int x) {
+		this.x = x;
+	}
+
+	public int getY() {
+		return y;
+	}
+
+	public void setY(int y) {
+		this.y = y;
+	}
+
+	public int getZ() {
+		return z;
+	}
+
+	public void setZ(int z) {
+		this.z = z;
+	}
+}
