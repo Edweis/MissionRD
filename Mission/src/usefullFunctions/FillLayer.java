@@ -131,15 +131,7 @@ public class FillLayer {
 			break;
 		}
 		
-		// ###print the rank list for debug
-			System.out.println("Ranks Index");
-			for (Integer i : indexOfSize) {
-				System.out.print("\t" + i);
-			}
-			System.out.println("\n*End of Rank List");
-
-		
-		
+				
 		return indexOfSize;
 	}
 
