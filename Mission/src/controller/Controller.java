@@ -75,7 +75,7 @@ public class Controller {
 		ArrayList<Integer> f = FillLayer.createFrequencyFunction(N, whichFrequencyFunction);
 
 		// CREATE ArrayList ACCORDING TO THE PriorityRule
-		ArrayList<Integer> res = FillLayer.generateRankedList(f, priorityRule, sizeOfRankedReturn);
+		ArrayList<Integer> res = FillLayer.generateIndexRankedList(f, priorityRule, sizeOfRankedReturn);
 
 		return res;
 	}

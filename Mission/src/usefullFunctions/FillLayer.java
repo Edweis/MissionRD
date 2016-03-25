@@ -69,7 +69,7 @@ public class FillLayer {
 		}
 
 		// ###print the frequency function for debug
-				System.out.println("\n*Frequency function********");
+				System.out.println("\n*Frequency function*");
 				for (int i=0; i<pos.size(); i++) {
 					System.out.print("\t" + pos.get(i));
 				}
@@ -77,16 +77,15 @@ public class FillLayer {
 				for (Integer i : f) {
 					System.out.print("\t" + i);
 				}
-				System.out.println("\n*End of Frequency Function**********");
+				System.out.println("\n*End of Frequency Function*");
 
 		return f;
 	}
 
-	public static ArrayList<Integer> generateRankedList(ArrayList<Integer> freqFunct, String priorityRule,
+	public static ArrayList<Integer> generateIndexRankedList(ArrayList<Integer> freqFunct, String priorityRule,
 			int sizeOfRankedReturn) {
 
-		ArrayList<Integer> res = new ArrayList<Integer>();
-		ArrayList<Integer> valeur = new ArrayList<Integer>();
+		ArrayList<Integer> indexOfSize = new ArrayList<Integer>();
 
 		switch (priorityRule) {
 		case "a":
@@ -96,23 +95,23 @@ public class FillLayer {
 		 * Choose the largest dimension with increasing frequency
 		 **/
 		case "b":
-			int c = -1;
+			int max = -1;
 			int pos = 0;
 			// Until the function contains only zeros or we have picked enough
 			// value
-			while (c != 0 || res.size() == sizeOfRankedReturn) {
-				c = 0;
+			while (max != 0 || indexOfSize.size() == sizeOfRankedReturn) {
+				max = 0;
 				pos = 0;
+				
 				// We pick the highest value of the frequency function
 				for (int i = 0; i < freqFunct.size(); i++) {
-					if (freqFunct.get(i) > c) {
-						c = freqFunct.get(i);
+					if (freqFunct.get(i) > max) {
+						max = freqFunct.get(i);
 						pos = i;
 						freqFunct.set(i, 0);// And we set it at 0
 					}
 				}
-				res.add(c);
-				valeur.add(pos);
+				indexOfSize.add(pos);
 			}
 
 			break;
@@ -133,22 +132,15 @@ public class FillLayer {
 		}
 		
 		// ###print the rank list for debug
-		System.out.println("\n*Rank List********");
-		System.out.println("Rank");
-		for (Integer i : res) {
-			System.out.print("\t" + i);
-		}
-		
-		System.out.println();
-		System.out.println("Value");
-		for (Integer i : valeur) {
-			System.out.print("\t" + i);
-		}
-		System.out.println("\n*End of Frequency Function**********");
+			System.out.println("Ranks Index");
+			for (Integer i : indexOfSize) {
+				System.out.print("\t" + i);
+			}
+			System.out.println("\n*End of Rank List");
 
 		
 		
-		return valeur;
+		return indexOfSize;
 	}
 
 }

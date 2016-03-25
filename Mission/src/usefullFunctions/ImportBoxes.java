@@ -110,7 +110,7 @@ public class ImportBoxes {
 		}
 		
 		
-		System.out.println("\n*************In short***************");
+		System.out.println("\nIn short***");
 		System.out.println("added " + set.size() + " boxes");
 		System.out.println("\t with : ");
 		for (int j = 0; j < nbBoxes.size(); j++) {
@@ -122,6 +122,7 @@ public class ImportBoxes {
 		System.out.println("using " + Double.toString(100 * (double) ((double) container.getVolume() / volume))
 				+ "% of the total volume");
 		
+		System.out.println("\n*************End Generate Boxes***************");
 		setReady = true;
 	}
 
