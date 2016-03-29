@@ -18,7 +18,8 @@ public class Application {
 		
 		
 		for (int j = 0; j< args.length; j++) {
-			
+			int k;
+			k = 3;
 		}
 	}
 
