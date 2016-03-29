@@ -19,38 +19,41 @@ public class Item {
 
 	public void switchDimension(String s) {
 		int p;
-		switch (s) {
-		case "wh":
-			p = height;
-			height = width;
-			width = p;
-			break;
-		case "hd":
-			p = height;
-			height = depth;
-			depth = p;
-			break;
-		case "dw":
-			p = depth;
-			depth = width;
-			width = p;
-			break;
+		if (s != null) {
+			switch (s) {
+			case "wh":
+				p = height;
+				height = width;
+				width = p;
+				break;
+			case "hd":
+				p = height;
+				height = depth;
+				depth = p;
+				break;
+			case "dw":
+				p = depth;
+				depth = width;
+				width = p;
+				break;
 
-		case "hw":
-			p = height;
-			height = width;
-			width = p;
-			break;
-		case "dh":
-			p = height;
-			height = depth;
-			depth = p;
-			break;
-		case "wd":
-			p = depth;
-			depth = width;
-			width = p;
-			break;
+			case "hw":
+				p = height;
+				height = width;
+				width = p;
+				break;
+			case "dh":
+				p = height;
+				height = depth;
+				depth = p;
+				break;
+			case "wd":
+				p = depth;
+				depth = width;
+				width = p;
+				break;
+
+			}
 		}
 	}
 
@@ -94,8 +97,10 @@ public class Item {
 	 * Rotate a box such that its depth dj is largest possible satisfying dj<=d.
 	 * Calculate the ratio a=dj/d.
 	 * 
-	 * @param d = given depth
-	 * @param i = given Item
+	 * @param d
+	 *            = given depth
+	 * @param i
+	 *            = given Item
 	 * @return a = dj/d
 	 */
 	public double rotateBoxMaxDepth(int d, Item i) {
@@ -103,31 +108,27 @@ public class Item {
 		int max = i.maxEdge();
 		int dj = 0;
 		String rot = null;
-		double a =0;
+		double a = 0;
 
 		// Search the largest dimension of a box less or equal than d and rotate
 		// the box
-		if (max <= d) {
-			if (max == i.height) {
-				i.switchDimension("dh");
-			} else if (max == i.width) {
-				i.switchDimension("dw");
-			}
-		} else {
-			if (i.depth <= d) {
-				dj = i.depth;
-			} else if (i.height <= d && dj < i.height) {
-				dj = i.height;
-				rot = "hd";
-			} else if (i.width <= d && dj < i.width) {
-				dj = i.width;
-				rot = "wd";
-			}
-			i.switchDimension("rot");
+		if (i.depth <= d) {
+			dj = i.depth;
+		}
+		if (i.height <= d && dj < i.height) {
+			dj = i.height;
+			rot = "hd";
+		}
+		if (i.width <= d && dj < i.width) {
+			dj = i.width;
+			rot = "wd";
 		}
 
+		System.out.println(rot);
+		i.switchDimension(rot);
+
 		// Calculates the ratio dj/d
-		a = (double)(i.depth / d);
+		a = (double) (i.depth / d);
 		return a;
 
 	}
