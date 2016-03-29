@@ -16,9 +16,6 @@ public class Application {
 		
 		c.fill_layer(230, 100, 80, 0, ImportBoxes.getSet());
 		
-		"Salut"
-		
-		"fdoifhsffq"
 	}
 
 }
