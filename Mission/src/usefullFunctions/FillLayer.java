@@ -69,7 +69,7 @@ public class FillLayer {
 		}
 
 		// ###print the frequency function for debug
-				System.out.println("\n*Frequency function*");
+				System.out.println("\n*Frequency function");
 				for (int i=0; i<pos.size(); i++) {
 					System.out.print("\t" + pos.get(i));
 				}
@@ -77,7 +77,7 @@ public class FillLayer {
 				for (Integer i : f) {
 					System.out.print("\t" + i);
 				}
-				System.out.println("\n*End of Frequency Function*");
+				System.out.println();
 
 		return f;
 	}

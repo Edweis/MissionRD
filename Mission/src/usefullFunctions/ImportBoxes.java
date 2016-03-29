@@ -46,6 +46,7 @@ public class ImportBoxes {
 			System.out.println("*Importing boxes from " + path);
 			line = br.readLine();
 			System.out.println("\t from : " + line);
+			System.out.println();
 			
 			br.readLine();//ligne vide
 			
