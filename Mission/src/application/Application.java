@@ -1,7 +1,5 @@
 package application;
 
-import java.util.ArrayList;
-
 import controller.Controller;
 import usefullFunctions.*;
 
