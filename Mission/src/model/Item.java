@@ -17,7 +17,6 @@ public class Item {
 		x = y = z = 0;
 	}
 
-
 	public void switchDimension(String s) {
 		int p;
 		switch (s) {
@@ -87,15 +86,52 @@ public class Item {
 		return res;
 	}
 
-	public String toString(){
-		return "h=" + height + " * w=" + width + " * d=" +depth;
+	public String toString() {
+		return "h=" + height + " * w=" + width + " * d=" + depth;
 	}
-	
-	
-	
-	
-	
-	
+
+	/**
+	 * Rotate a box such that its depth dj is largest possible satisfying dj<=d.
+	 * Calculate the ratio a=dj/d.
+	 * 
+	 * @param d = given depth
+	 * @param i = given Item
+	 * @return a = dj/d
+	 */
+	public double rotateBoxMaxDepth(int d, Item i) {
+
+		int max = i.maxEdge();
+		int dj = 0;
+		String rot = null;
+		double a =0;
+
+		// Search the largest dimension of a box less or equal than d and rotate
+		// the box
+		if (max <= d) {
+			if (max == i.height) {
+				i.switchDimension("dh");
+			} else if (max == i.width) {
+				i.switchDimension("dw");
+			}
+		} else {
+			if (i.depth <= d) {
+				dj = i.depth;
+			} else if (i.height <= d && dj < i.height) {
+				dj = i.height;
+				rot = "hd";
+			} else if (i.width <= d && dj < i.width) {
+				dj = i.width;
+				rot = "wd";
+			}
+			i.switchDimension("rot");
+		}
+
+		// Calculates the ratio dj/d
+		a = (double)(i.depth / d);
+		return a;
+
+	}
+
 	// Getters and setters
 	public int getVolume() {
 		return volume;
@@ -156,4 +192,5 @@ public class Item {
 	public void setZ(int z) {
 		this.z = z;
 	}
+
 }
