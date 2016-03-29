@@ -15,6 +15,8 @@ public class Application {
 		Controller c = new Controller();
 		
 		c.fill_layer(230, 100, 80, 0, ImportBoxes.getSet());
+		
+		"Salut"
 	}
 
 }
