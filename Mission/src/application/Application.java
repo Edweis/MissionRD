@@ -17,7 +17,7 @@ public class Application {
 		c.fill_layer(230, 100, 80, 0, ImportBoxes.getSet());
 		
 		
-		for (int i = 0; i < args.length; i++) {
+		for (int j = 0; j< args.length; j++) {
 			
 		}
 	}
