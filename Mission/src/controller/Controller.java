@@ -41,11 +41,11 @@ public class Controller {
 			
 			
 			// ---------- PACK VERTICAL STRIP
-			boites.rotateBoxesMaxWidth();;
+			boites.rotateBoxesMaxWidth();
 			M2 = selectBestRank(boites);
 
 			for (Integer w : M2) {
-				//setBoxes K = fill_single_strip(height, boites);
+				//setBoxes K = fill_single_strip(height, boxes);
 				//fill_layer(width - w, height, LayerDepth, VolAlreadyPlacedBoxes + K.getVolume(), boites.exclude(K));
 			}
 
@@ -57,7 +57,7 @@ public class Controller {
 			M2 = selectBestRank(boites);
 
 			for (Integer h : M2) {
-				//setBoxes K = fill_single_strip(height, boites);
+				//setBoxes K = fill_single_strip(height, boxes);
 				//fill_layer(width, height - h, LayerDepth, VolAlreadyPlacedBoxes + util.volumeOfBoxes(K), util.exclude(boites, K));
 			}
 
@@ -86,7 +86,7 @@ public class Controller {
 			for (Integer i : res) {
 				System.out.print("\t" + i);
 			}
-			System.out.println("\n*End of Ranks");
+			System.out.println();
 			
 		return res;
 	}
