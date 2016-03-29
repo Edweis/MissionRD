@@ -1,5 +1,7 @@
 package usefullFunctions;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Date;
@@ -22,20 +24,57 @@ public class ImportBoxes {
 	 * Sets the container.
 	 *
 	 * @param h
-	 *            the h
+	 *            the height
 	 * @param w
-	 *            the w
+	 *            the width
 	 * @param d
-	 *            the d
+	 *            the depth
 	 */
 	public static void setContainer(int h, int w, int d) {
 		container = new Item(h, w, d);
 		containerReady = true;
 	}
 
-	public static void importBoxes(String path) {
-		boolean success = false;
+	public static boolean  importBoxes(String path) {
+		boolean success = true;
 
+		try {
+			BufferedReader br = new BufferedReader (new FileReader (path));
+
+			String line;
+			
+			System.out.println("*Importing boxes from " + path);
+			line = br.readLine();
+			System.out.println("\t from : " + line);
+			
+			br.readLine();//ligne vide
+			
+			line =br.readLine(); 
+			String [] lines;
+			while (line != null) {
+				
+				
+				lines = line.split("\\*");
+				
+				//delete non digit values
+				lines[0] = lines[0].replaceAll("\\D+","");
+				lines[1] = lines[1].replaceAll("\\D+","");
+				lines[2] = lines[2].replaceAll("\\D+","");
+				
+				//add Item to the set
+				set.add(new Item(Integer.parseInt(lines[0]),Integer.parseInt(lines[1]),Integer.parseInt(lines[2])));
+				
+				
+				line = br.readLine();
+			} 
+			br.close();
+			setReady = true;
+		} catch (Exception e) {
+			
+			success = false;
+		}
+		
+		return success;
 	}
 
 	/**
@@ -108,8 +147,7 @@ public class ImportBoxes {
 
 			System.out.println("added : " + myBoxes.get(i));
 		}
-		
-		
+
 		System.out.println("\nIn short***");
 		System.out.println("added " + set.size() + " boxes");
 		System.out.println("\t with : ");
@@ -117,19 +155,17 @@ public class ImportBoxes {
 			System.out.println("\t \t" + nbBoxes.get(j) + " boxe of type : " + myBoxes.get(j));
 		}
 
-		
-		
 		System.out.println("using " + Double.toString(100 * (double) ((double) container.getVolume() / volume))
 				+ "% of the total volume");
-		
+
 		System.out.println("\n*************End Generate Boxes***************");
 		setReady = true;
 	}
 
-	public static setBoxes getSet(){
-		if(containerReady && setReady){
+	public static setBoxes getSet() {
+		if (containerReady && setReady) {
 			return set;
-		}else{
+		} else {
 			System.out.println("The container or the set has not been defined");
 			return null;
 		}
