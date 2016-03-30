@@ -3,7 +3,7 @@ package usefullFunctions;
 import java.util.ArrayList;
 
 import model.Item;
-import model.setBoxes;
+import model.SetBoxes;
 
 public class FillLayer {
 	/**
@@ -14,7 +14,7 @@ public class FillLayer {
 	 *            inside the method
 	 * @return frequency function
 	 */
-	public static ArrayList<Integer> createFrequencyFunction(setBoxes N, int whichOne) {
+	public static ArrayList<Integer> createFrequencyFunction(SetBoxes N, int whichOne) {
 
 		// "Alpha" and "Beta" initialization
 		int alpha = N.shortestEdge();

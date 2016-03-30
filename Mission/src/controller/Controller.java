@@ -6,7 +6,7 @@ import usefullFunctions.FillLayer;
 
 
 import model.Item;
-import model.setBoxes;
+import model.SetBoxes;
 
 public class Controller {
 	// Attributes for processing
@@ -19,12 +19,12 @@ public class Controller {
 										// 2, 3}
 
 	// Algorithm Attributes
-	private setBoxes currentBestFilling = new setBoxes(); // L
+	private SetBoxes currentBestFilling = new SetBoxes(); // L
 	private int bestFilling_ObjectiveValue; // U*
 
 	// fill_layer(w/, h/, d', U, N'')
-	public setBoxes fill_layer(int width, int height, int LayerDepth, int VolAlreadyPlacedBoxes,
-			setBoxes boites) {
+	public SetBoxes fill_layer(int width, int height, int LayerDepth, int VolAlreadyPlacedBoxes,
+			SetBoxes boites) {
 
 		// We update the volume of placed boxes
 		if (VolAlreadyPlacedBoxes > bestFilling_ObjectiveValue) {
@@ -68,7 +68,7 @@ public class Controller {
 
 	}
 
-	private ArrayList<Integer> selectBestRank(setBoxes N) {
+	private ArrayList<Integer> selectBestRank(SetBoxes N) {
 
 		// CREATE FREQUENCY FUNCTION
 		ArrayList<Integer> f = FillLayer.createFrequencyFunction(N, whichFrequencyFunction);

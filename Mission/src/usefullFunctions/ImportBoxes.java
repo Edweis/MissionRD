@@ -7,11 +7,11 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import model.Item;
-import model.setBoxes;
+import model.SetBoxes;
 
 public class ImportBoxes {
 	static private Item container;
-	static private setBoxes set = new setBoxes();
+	static private SetBoxes set = new SetBoxes();
 
 	static private boolean containerReady = false;
 	static private boolean setReady = false;
@@ -119,7 +119,7 @@ public class ImportBoxes {
 			return;
 		}
 
-		setBoxes myBoxes = new setBoxes();
+		SetBoxes myBoxes = new SetBoxes();
 		ArrayList<Integer> nbBoxes = new ArrayList<Integer>();
 
 		// Generate boxes that will be used
@@ -160,7 +160,7 @@ public class ImportBoxes {
 		setReady = true;
 	}
 
-	public static setBoxes getSet() {
+	public static SetBoxes getSet() {
 		if (containerReady && setReady) {
 			return set;
 		} else {
