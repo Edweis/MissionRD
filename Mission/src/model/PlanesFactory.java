@@ -5,6 +5,7 @@ import java.io.FileReader;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Scanner;
 
 public class PlanesFactory {
 
@@ -146,5 +147,65 @@ public class PlanesFactory {
 		}
 		return set;
 
+	}
+
+	public static void addPlanesManualy(String path){
+		
+		SetPlanes res = new SetPlanes();
+		
+		System.out.println("----------------------------------------------------");
+		System.out.println("Enter exit to exit, next to enter a plane");
+		System.out.println();
+		
+		Scanner reader = new Scanner(System.in);  // Reading from System.in
+		
+		
+		boolean continueTyping = true;
+		
+		Plane p;
+		int nbPlaces;
+		int h,w,d;
+		
+		while(continueTyping){
+			System.out.println("****** Plane name : ");
+			p = new Plane(reader.nextLine());
+			
+			System.out.println("   Number of spaces : ");
+			nbPlaces = reader.nextInt();
+			
+			for(int i = 0; i<nbPlaces; i++){
+				System.out.println("\t Place number "+ (i+1)+" : ");
+				System.out.println("height : ");
+					h = reader.nextInt();
+				System.out.println("width : ");
+					w = reader.nextInt();
+				System.out.println("depth : ");
+					d = reader.nextInt();
+			
+				p.addSpace(new Item(h,w,d));
+			}
+			
+			res.add(p);//Ajout de l'avion
+			
+			
+			System.out.println("***** Next plane ? (y/n)");
+
+			while(true){
+				String reponse = reader.next();
+				if(reponse.equals("y")){
+					continueTyping = true;
+					break;
+				}else if(reponse.equals("n"))
+					continueTyping = false;
+					break;
+			}
+			
+			
+		}
+		
+		PlanesFactory.exportPlanes(res, path);
+		
+		System.out.println("Planes had been added and saved in "+path);
+		
 	}
 }
