@@ -10,36 +10,18 @@ import model.Item;
 import model.SetBoxes;
 
 public class BoxesFactory {
-	static private Item container;
-	static private SetBoxes set = new SetBoxes();
-
-	static private boolean containerReady = false;
-	static private boolean setReady = false;
-
-	/**
-	 * Sets the container.
-	 *
-	 * @param h
-	 *            the height
-	 * @param w
-	 *            the width
-	 * @param d
-	 *            the depth
-	 */
-	public static void setContainer(int h, int w, int d) {
-		container = new Item(h, w, d);
-		containerReady = true;
-	}
 
 	/**
 	 * Import boxes from a CSV file
+	 * 
 	 * @param path
 	 * @return true if success, no otherwise
 	 */
-	public static boolean importBoxes(String path) {
-		boolean success = true;
+	public static SetBoxes importBoxes(String path) {
+		SetBoxes res = null;
 
 		try {
+			SetBoxes set = new SetBoxes();
 			BufferedReader br = new BufferedReader(new FileReader(path));
 
 			String line;
@@ -64,13 +46,12 @@ public class BoxesFactory {
 				line = br.readLine();
 			}
 			br.close();
-			setReady = true;
+			res = set;
 		} catch (Exception e) {
 
-			success = false;
 		}
 
-		return success;
+		return res;
 	}
 
 	/**
@@ -80,8 +61,9 @@ public class BoxesFactory {
 	 *            the path
 	 * @return true, if successful, false otherwise
 	 */
-	public static boolean exportBoxes(String path) {
-		boolean success = true;
+	public static boolean exportBoxes(SetBoxes set, String path) {
+
+		boolean success;
 		try {
 			PrintWriter writer = new PrintWriter(path, "UTF-8");
 			writer.println(new Date());
@@ -93,6 +75,7 @@ public class BoxesFactory {
 			}
 
 			writer.close();
+			success = true;
 		} catch (Exception e) {
 			success = false;
 		}
@@ -102,6 +85,8 @@ public class BoxesFactory {
 	/**
 	 * Generate randomly boxes.
 	 *
+	 * @param container
+	 *            the container
 	 * @param nbDifferentBoxes
 	 *            the number of different boxes
 	 * @param ratio
@@ -111,12 +96,12 @@ public class BoxesFactory {
 	 * @param longerEdge
 	 *            the longer edge of each boxes
 	 */
-	public static void generateBoxes(int nbDifferentBoxes, double ratio, int lowerEdge, int longerEdge) {
+	public static SetBoxes generateBoxes(Item container, int nbDifferentBoxes, double ratio, int lowerEdge,
+			int longerEdge) {
 
-		if (!containerReady) {
-			System.out.println("Container has not been defined");
-			return;
-		}
+	
+
+		SetBoxes set = new SetBoxes();
 
 		SetBoxes myBoxes = new SetBoxes();
 		ArrayList<Integer> nbBoxes = new ArrayList<Integer>();
@@ -156,19 +141,8 @@ public class BoxesFactory {
 				+ "% of the total volume");
 
 		System.out.println("\n*************End Generate Boxes***************");
-		setReady = true;
+
+		return set;
 	}
 
-	public static SetBoxes getSet() {
-		if (containerReady && setReady) {
-			return set;
-		} else {
-			System.out.println("The container or the set has not been defined");
-			return null;
-		}
-	}
-
-	public static Item getContainer() {
-		return container;
-	}
 }

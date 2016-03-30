@@ -5,7 +5,7 @@ public class Item {
 	private int height, width, depth, x, y, z;
 	private boolean turn;
 
-	private int volume;
+	private long volume;
 
 	public Item(int h, int w, int d) {
 		height = h;
@@ -134,7 +134,7 @@ public class Item {
 	}
 
 	// Getters and setters
-	public int getVolume() {
+	public long getVolume() {
 		return volume;
 	}
 
