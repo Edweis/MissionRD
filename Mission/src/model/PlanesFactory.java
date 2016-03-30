@@ -3,6 +3,7 @@ package model;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class PlanesFactory {
@@ -83,18 +84,23 @@ public class PlanesFactory {
 
 			for (Plane p : set) {
 				writer.print(p.getName()+";");
+				ArrayList<Item> spaces = p.getSpaces();
 				
-				for(Item i : p.getSpaces()){
-					writer.print("," +i.getHeight());
+				writer.print(spaces.get(0).getHeight());
+				for (int i = 1; i < spaces.size(); i++) {
+					writer.print("," +spaces.get(i).getHeight());
 				}
-				writer.print(";");
-				for(Item i : p.getSpaces()){
-					writer.print("," + i.getWidth());
+				
+				writer.print(";" + spaces.get(0).getWidth());
+				for (int i = 1; i < spaces.size(); i++) {
+					writer.print("," +spaces.get(i).getWidth());
 				}
-				writer.print(";");
-				for(Item i : p.getSpaces()){
-					writer.print("," + i.getDepth());
+				
+				writer.print(";" + spaces.get(0).getDepth());
+				for (int i = 1; i < spaces.size(); i++) {
+					writer.print("," +spaces.get(i).getDepth());
 				}
+				
 				writer.println();
 			}
 			writer.close();
