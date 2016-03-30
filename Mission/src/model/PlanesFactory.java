@@ -9,7 +9,6 @@ import java.util.Scanner;
 
 public class PlanesFactory {
 
-
 	/**
 	 * Import planes from a CSV file
 	 * 
@@ -150,68 +149,74 @@ public class PlanesFactory {
 	}
 
 	/**
-	 * You can add manually planes
-	 * each time you type a plane it is save in the document pointed with path
+	 * You can add manually planes each time you type a plane it is save in the
+	 * document pointed with path
+	 * 
 	 * @param path
 	 */
-	public static void addPlanesManualy(String path){
-		
+	public static void addPlanesManualy(String path) {
+
 		SetPlanes res = new SetPlanes();
-		
+
 		System.out.println("----------------------------------------------------");
 		System.out.println("Enter exit to exit, next to enter a plane");
 		System.out.println();
-		
-		Scanner reader = new Scanner(System.in);  // Reading from System.in
-		
-		
+
+		Scanner reader = new Scanner(System.in);
+		; // Reading from System.in
+
 		boolean continueTyping = true;
-		
+
 		Plane p;
 		int nbPlaces;
-		int h,w,d;
-		
-		while(continueTyping){
+		int h, w, d;
+
+		while (continueTyping) {
+
 			System.out.println("****** Plane name : ");
 			p = new Plane(reader.nextLine());
-			
+			reader.nextLine();
+
 			System.out.println("   Number of spaces : ");
 			nbPlaces = reader.nextInt();
-			
-			for(int i = 0; i<nbPlaces; i++){
-				System.out.println("\t Place number "+ (i+1)+" : ");
+
+			for (int i = 0; i < nbPlaces; i++) {
+				System.out.println("\t Place number " + (i + 1) + " : ");
 				System.out.println("height : ");
-					h = reader.nextInt();
+				h = reader.nextInt();
 				System.out.println("width : ");
-					w = reader.nextInt();
+				w = reader.nextInt();
 				System.out.println("depth : ");
-					d = reader.nextInt();
-			
-				p.addSpace(new Item(h,w,d));
+				d = reader.nextInt();
+
+				p.addSpace(new Item(h, w, d));
 			}
-			
-			res.add(p);//Add the plane
-			
-			PlanesFactory.exportPlanes(res, path); //Save
-			
+
+			res.add(p);// Add the plane
+
+			PlanesFactory.exportPlanes(res, path); // Save
+
 			System.out.println("***** Next plane ? (y/n)");
 
-			while(true){
+			while (true) {
 				String reponse = reader.next();
-				if(reponse.equals("y")){
+				if (reponse.equals("y")) {
 					continueTyping = true;
 					break;
-				}else if(reponse.equals("n"))
+				} else if (reponse.equals("n")) {
 					continueTyping = false;
 					break;
+				}
 			}
-			
-			
+
+			System.out.println();
+
 		}
-		
+		reader.close();
+
 		PlanesFactory.exportPlanes(res, path);
-		
-		System.out.println("Planes had been added and saved in "+path);
-		
+
+		System.out.println("Planes had been added and saved in " + path);
+
 	}
 }

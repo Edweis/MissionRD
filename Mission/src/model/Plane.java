@@ -14,8 +14,8 @@ public class Plane {
 	private String name;
 	private ArrayList<Item> spaces;
 	
-	public Plane(String name){
-		this.name = name;
+	public Plane(String s){
+		name = s;
 		spaces = new ArrayList<Item>();
 	}
 	

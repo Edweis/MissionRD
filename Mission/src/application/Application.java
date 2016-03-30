@@ -28,7 +28,7 @@ public class Application {
 		SetPlanes myPlanes2 = PlanesFactory.importPlanes("Test planes 1.csv");
 			System.out.println(myPlanes2);
 
-		PlanesFactory.addPlanesManualy("Planes Data Storage Of The Sky.csv");
+		PlanesFactory.addPlanesManualy("Planes Data Storage Of The Earth.csv");
 	}
 
 }
