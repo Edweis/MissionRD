@@ -59,7 +59,7 @@ public class SetBoxes implements Iterable<Item> {
 
 	public void rotatePairBoxes(Item i, int d, int a) {
 
-		double[][] calcul = new double[set.size() * 9][4];
+		double[][] calcul = new double[set.size() * 9][5];
 		int vi = i.getVolume();
 		int vj = 0;
 
@@ -75,7 +75,9 @@ public class SetBoxes implements Iterable<Item> {
 					} else if (j == 2) {
 						calcul[k][j] = (double) (i.getDepth() + set.get(k).getDepth());
 					} else if (j == 3) {
-						calcul[k][j] = 1;
+						calcul[k][j] = Double.parseDouble(null);
+					} else if (j == 4) {
+						calcul[k][j] = Double.parseDouble("behind");
 					}
 				} else if (k < set.size() * 2) {
 					if (j == 0) {
@@ -89,7 +91,9 @@ public class SetBoxes implements Iterable<Item> {
 					} else if (j == 2) {
 						calcul[k][j] = (double) ((i.getDepth() + set.get(k - set.size()).getHeight()));
 					} else if (j == 3) {
-						calcul[k][j] = 2;
+						calcul[k][j] = Double.parseDouble("hd");
+					} else if (j == 4) {
+						calcul[k][j] = Double.parseDouble("behind");
 					}
 
 				} else if (k < set.size() * 3) {
@@ -104,9 +108,12 @@ public class SetBoxes implements Iterable<Item> {
 					} else if (j == 2) {
 						calcul[k][j] = (double) (i.getDepth() + set.get(k - set.size() * 2).getWidth());
 					} else if (j == 3) {
-						calcul[k][j] = 3;
+						calcul[k][j] = Double.parseDouble("wd");
+						;
+					} else if (j == 4) {
+						calcul[k][j] = Double.parseDouble("behind");
 					}
-					// The box k is oset the box i
+					// The box k is on the box i
 				} else if (k < set.size() * 4) {
 					if (j == 0) {
 						calcul[k][j] = k - set.size() * 3;
@@ -118,7 +125,10 @@ public class SetBoxes implements Iterable<Item> {
 					} else if (j == 2) {
 						calcul[k][j] = (double) (i.getHeight() + set.get(k - set.size() * 3).getDepth());
 					} else if (j == 3) {
-						calcul[k][j] = 4;
+						calcul[k][j] = Double.parseDouble(null);
+						;
+					} else if (j == 4) {
+						calcul[k][j] = Double.parseDouble("on");
 					}
 
 				} else if (k < set.size() * 5) {
@@ -132,7 +142,10 @@ public class SetBoxes implements Iterable<Item> {
 					} else if (j == 2) {
 						calcul[k][j] = (double) (i.getHeight() + set.get(k - set.size() * 4).getHeight());
 					} else if (j == 3) {
-						calcul[k][j] = 5;
+						calcul[k][j] = Double.parseDouble("hd");
+						;
+					} else if (j == 4) {
+						calcul[k][j] = Double.parseDouble("on");
 					}
 
 				} else if (k < set.size() * 6) {
@@ -146,7 +159,10 @@ public class SetBoxes implements Iterable<Item> {
 					} else if (j == 2) {
 						calcul[k][j] = (double) (i.getHeight() + set.get(k - set.size() * 5).getWidth());
 					} else if (j == 3) {
-						calcul[k][j] = 6;
+						calcul[k][j] = Double.parseDouble("wd");
+						;
+					} else if (j == 4) {
+						calcul[k][j] = Double.parseDouble("on");
 					}
 					// The box k is setext to the box i
 				} else if (k < set.size() * 7) {
@@ -162,7 +178,10 @@ public class SetBoxes implements Iterable<Item> {
 					} else if (j == 2) {
 						calcul[k][j] = (double) (i.getWidth() + set.get(k - set.size() * 6).getDepth());
 					} else if (j == 3) {
-						calcul[k][j] = 7;
+						calcul[k][j] = Double.parseDouble(null);
+						;
+					} else if (j == 4) {
+						calcul[k][j] = Double.parseDouble("next");
 					}
 				} else if (k < set.size() * 8) {
 					if (j == 0) {
@@ -175,7 +194,10 @@ public class SetBoxes implements Iterable<Item> {
 					} else if (j == 2) {
 						calcul[k][j] = (double) (i.getWidth() + set.get(k - set.size() * 7).getDepth());
 					} else if (j == 3) {
-						calcul[k][j] = 8;
+						calcul[k][j] = Double.parseDouble("hd");
+						;
+					} else if (j == 4) {
+						calcul[k][j] = Double.parseDouble("next");
 					}
 				} else if (k < set.size() * 9) {
 					if (j == 0) {
@@ -188,12 +210,78 @@ public class SetBoxes implements Iterable<Item> {
 					} else if (j == 2) {
 						calcul[k][j] = (double) (i.getWidth() + set.get(k - set.size() * 8).getDepth());
 					} else if (j == 3) {
-						calcul[k][j] = 9;
+						calcul[k][j] = Double.parseDouble("wd");
+						;
+					} else if (j == 4) {
+						calcul[k][j] = Double.parseDouble("next");
 					}
 				}
 
 			}
 		}
+		double max = 0;
+		int indexmax = 0;
+		for (int k = 0; k < calcul.length; k++) {
+			if (calcul[k][2] < d) {
+				if (calcul[k][1] > max) {
+					max = calcul[k][1];
+					if (k < set.size()) {
+						indexmax = k;
+					} else if (k < set.size() * 2) {
+						indexmax = k - set.size();
+					} else if (k < set.size() * 3) {
+						indexmax = k - set.size() * 2;
+					} else if (k < set.size() * 4) {
+						indexmax = k - set.size() * 3;
+					} else if (k < set.size() * 5) {
+						indexmax = k - set.size() * 4;
+					} else if (k < set.size() * 6) {
+						indexmax = k - set.size() * 5;
+					} else if (k < set.size() * 7) {
+						indexmax = k - set.size() * 6;
+					} else if (k < set.size() * 8) {
+						indexmax = k - set.size() * 7;
+					} else if (k < set.size() * 9) {
+						indexmax = k - set.size() * 8;
+					}
+
+				}
+			}
+		}
+		System.out.println("Solution : " + indexmax);
+
+		Item it = null;
+		if (calcul[indexmax][3] == 1) {
+			it = new Item(Math.max(i.getWidth(), set.get(indexmax).getWidth()),
+					Math.max(i.getHeight(), set.get(indexmax).getHeight()), d);
+		} else if (calcul[indexmax][3] == 2) {
+			it = new Item(Math.max(i.getWidth(), set.get(indexmax).getDepth()),
+					Math.max(i.getHeight(), set.get(indexmax).getWidth()), d);
+		} else if (calcul[indexmax][3] == 3) {
+			it = new Item(Math.max(i.getWidth(), set.get(indexmax).getHeight()),
+					Math.max(i.getHeight(), set.get(indexmax).getDepth()), d);
+		} else if (calcul[indexmax][3] == 4) {
+			it = new Item(Math.max(i.getWidth(), set.get(indexmax).getHeight()),
+					Math.max(i.getHeight(), set.get(indexmax).getDepth()), d);
+		} else if (calcul[indexmax][3] == 5) {
+			it = new Item(Math.max(i.getDepth(), set.get(indexmax).getDepth()),
+					Math.max(i.getWidth(), set.get(indexmax).getWidth()), d);
+		} else if (calcul[indexmax][3] == 6) {
+			it = new Item(Math.max(i.getDepth(), set.get(indexmax).getHeight()),
+					Math.max(i.getWidth(), set.get(indexmax).getDepth()), d);
+		} else if (calcul[indexmax][3] == 7) {
+			it = new Item(Math.max(i.getHeight(), set.get(indexmax).getWidth()),
+					Math.max(i.getDepth(), set.get(indexmax).getHeight()), d);
+		} else if (calcul[indexmax][3] == 8) {
+			it = new Item(Math.max(i.getHeight(), set.get(indexmax).getDepth()),
+					Math.max(i.getDepth(), set.get(indexmax).getWidth()), d);
+		} else if (calcul[indexmax][3] == 9) {
+			it = new Item(Math.max(i.getHeight(), set.get(indexmax).getHeight()),
+					Math.max(i.getDepth(), set.get(indexmax).getDepth()), d);
+		}
+		set.add(it);
+		set.remove(indexmax);
+		set.remove(i);
 	}
 
 	/**
