@@ -5,25 +5,23 @@ import java.util.Iterator;
 
 public class SetBoxes implements Iterable<Item> {
 	/**
-	 * set = set of Boxes 
+	 * set = set of Boxes
 	 */
 	private ArrayList<Item> set;
-	
+
 	/**
-	 * sizesOfItems = array with two values in each case : a
-	 * size and his occurrence. For instance [20][5] means that there is 5 boxes
-	 * which have an edge which size 20.
+	 * sizesOfItems = array with two values in each case : a size and his
+	 * occurrence. For instance [20][5] means that there is 5 boxes which have
+	 * an edge which size 20.
 	 */
 	private ArrayList<int[]> sizesOfItems;
-	
-
 
 	private int volume;
 
 	/**
 	 * Constructor that just initiates
 	 */
- 	public SetBoxes() {
+	public SetBoxes() {
 		set = new ArrayList<Item>();
 		sizesOfItems = new ArrayList<int[]>();
 		volume = 0;
@@ -55,6 +53,145 @@ public class SetBoxes implements Iterable<Item> {
 				i.switchDimension("wh");
 			} else if (i.getDepth() == max) {
 				i.switchDimension("dh");
+			}
+		}
+	}
+
+	public void rotatePairBoxes(Item i, int d, int a) {
+
+		double[][] calcul = new double[set.size() * 9][4];
+		int vi = i.getVolume();
+		int vj = 0;
+
+		for (int k = 0; k < calcul.length; k++) {
+			for (int j = 0; j < calcul[0].length; j++) {
+				if (k < set.size()) {
+					if (j == 0) {
+						calcul[k][j] = (double) k;
+					} else if (j == 1) {
+						vj = set.get(k).getVolume();
+						calcul[k][j] = (double) ((vi + vj) / (d * Math.max(i.getWidth(), set.get(k).getWidth()))
+								* Math.max(i.getHeight(), set.get(k).getHeight()));
+					} else if (j == 2) {
+						calcul[k][j] = (double) (i.getDepth() + set.get(k).getDepth());
+					} else if (j == 3) {
+						calcul[k][j] = 1;
+					}
+				} else if (k < set.size() * 2) {
+					if (j == 0) {
+						calcul[k][j] = k - set.size();
+					} else if (j == 1) {
+						// the height becomes depth
+						vj = set.get(k - set.size()).getVolume();
+						calcul[k][j] = (double) (vi + vj)
+								/ (d * Math.max(i.getWidth(), set.get(k - set.size()).getDepth())
+										* Math.max(i.getHeight(), set.get(k - set.size()).getWidth()));
+					} else if (j == 2) {
+						calcul[k][j] = (double) ((i.getDepth() + set.get(k - set.size()).getHeight()));
+					} else if (j == 3) {
+						calcul[k][j] = 2;
+					}
+
+				} else if (k < set.size() * 3) {
+					if (j == 0) {
+						calcul[k][j] = k - set.size() * 2;
+					} else if (j == 1) {
+						// the width becomes the depth
+						vj = set.get(k - set.size() * 2).getVolume();
+						calcul[k][j] = (double) (vi + vj)
+								/ (d * Math.max(i.getWidth(), set.get(k - set.size() * 2).getHeight())
+										* Math.max(i.getHeight(), set.get(k - set.size() * 2).getDepth()));
+					} else if (j == 2) {
+						calcul[k][j] = (double) (i.getDepth() + set.get(k - set.size() * 2).getWidth());
+					} else if (j == 3) {
+						calcul[k][j] = 3;
+					}
+					// The box k is oset the box i
+				} else if (k < set.size() * 4) {
+					if (j == 0) {
+						calcul[k][j] = k - set.size() * 3;
+					} else if (j == 1) {
+						vj = set.get(k - set.size() * 3).getVolume();
+						calcul[k][j] = (double) (vi + vj)
+								/ (d * Math.max(i.getDepth(), set.get(k - set.size() * 3).getWidth()))
+								* Math.max(i.getWidth(), set.get(k - set.size() * 3).getHeight());
+					} else if (j == 2) {
+						calcul[k][j] = (double) (i.getHeight() + set.get(k - set.size() * 3).getDepth());
+					} else if (j == 3) {
+						calcul[k][j] = 4;
+					}
+
+				} else if (k < set.size() * 5) {
+					if (j == 0) {
+						calcul[k][j] = k - set.size() * 4;
+					} else if (j == 1) {
+						vj = set.get(k - set.size() * 4).getVolume();
+						calcul[k][j] = (double) (vi + vj)
+								/ (d * Math.max(i.getDepth(), set.get(k - set.size() * 4).getDepth())
+										* Math.max(i.getWidth(), set.get(k - set.size() * 4).getWidth()));
+					} else if (j == 2) {
+						calcul[k][j] = (double) (i.getHeight() + set.get(k - set.size() * 4).getHeight());
+					} else if (j == 3) {
+						calcul[k][j] = 5;
+					}
+
+				} else if (k < set.size() * 6) {
+					if (j == 0) {
+						calcul[k][j] = k - set.size() * 5;
+					} else if (j == 1) {
+						vj = set.get(k - set.size() * 5).getVolume();
+						calcul[k][j] = (double) (vi + vj)
+								/ (d * Math.max(i.getDepth(), set.get(k - set.size() * 5).getHeight())
+										* Math.max(i.getWidth(), set.get(k - set.size() * 5).getDepth()));
+					} else if (j == 2) {
+						calcul[k][j] = (double) (i.getHeight() + set.get(k - set.size() * 5).getWidth());
+					} else if (j == 3) {
+						calcul[k][j] = 6;
+					}
+					// The box k is setext to the box i
+				} else if (k < set.size() * 7) {
+					if (j == 0) {
+						calcul[k][j] = k - set.size() * 6;
+					} else if (j == 1) {
+						vj = set.get(k - set.size() * 6).getVolume();
+						calcul[k][j] = (double) (vi + vj)
+								/ (d * Math.max(i.getHeight(), set.get(k - set.size() * 6).getWidth()))
+								* Math.max(i.getDepth(), set.get(k - set.size() * 6).getHeight());
+						// (i.getWidth() + set.get(k - set.size() *
+						// 6).getDepth());
+					} else if (j == 2) {
+						calcul[k][j] = (double) (i.getWidth() + set.get(k - set.size() * 6).getDepth());
+					} else if (j == 3) {
+						calcul[k][j] = 7;
+					}
+				} else if (k < set.size() * 8) {
+					if (j == 0) {
+						calcul[k][j] = k - set.size() * 7;
+					} else if (j == 1) {
+						vj = set.get(k - set.size() * 7).getVolume();
+						calcul[k][j] = (double) (vi + vj)
+								/ (d * Math.max(i.getHeight(), set.get(k - set.size() * 7).getDepth())
+										* Math.max(i.getDepth(), set.get(k - set.size() * 7).getWidth()));
+					} else if (j == 2) {
+						calcul[k][j] = (double) (i.getWidth() + set.get(k - set.size() * 7).getDepth());
+					} else if (j == 3) {
+						calcul[k][j] = 8;
+					}
+				} else if (k < set.size() * 9) {
+					if (j == 0) {
+						calcul[k][j] = k - set.size() * 8;
+					} else if (j == 1) {
+						vj = set.get(k).getVolume();
+						calcul[k][j] = (double) (vi + vj)
+								/ (d * Math.max(i.getHeight(), set.get(k - set.size() * 8).getHeight())
+										* Math.max(i.getDepth(), set.get(k - set.size() * 8).getDepth()));
+					} else if (j == 2) {
+						calcul[k][j] = (double) (i.getWidth() + set.get(k - set.size() * 8).getDepth());
+					} else if (j == 3) {
+						calcul[k][j] = 9;
+					}
+				}
+
 			}
 		}
 	}
@@ -138,17 +275,19 @@ public class SetBoxes implements Iterable<Item> {
 
 	/**
 	 * exclude a set of boxes from this set
-	 * @param set of boxes
+	 * 
+	 * @param set
+	 *            of boxes
 	 */
 	public void exclude(SetBoxes b) {
 		for (Item i : b) {
-			if (! set.remove(i)) {
+			if (!set.remove(i)) {
 				System.out.println("###############");
 				System.out.println("ERROR Cant not operate 'a.exclude(b)' , b is not include in a");
 				return;
-			}else{
+			} else {
 				updateRemoving(i);
-				volume-= i.getVolume();
+				volume -= i.getVolume();
 			}
 		}
 	}
@@ -326,9 +465,9 @@ public class SetBoxes implements Iterable<Item> {
 		set.set(index, element);
 	}
 
-	
 	/**
 	 * Return the volume of the set of boxes
+	 * 
 	 * @return the volume
 	 */
 	public int getVolume() {
@@ -337,11 +476,12 @@ public class SetBoxes implements Iterable<Item> {
 
 	/**
 	 * Return the sizes of Items in this set sorted
+	 * 
 	 * @return Sizes of items
 	 */
 	public ArrayList<Integer> getArrayOfPos() {
-		ArrayList<Integer> res = new ArrayList<Integer> ();
-		for(int [] i : sizesOfItems){
+		ArrayList<Integer> res = new ArrayList<Integer>();
+		for (int[] i : sizesOfItems) {
 			res.add(i[0]);
 		}
 		return res;
