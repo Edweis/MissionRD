@@ -149,6 +149,11 @@ public class PlanesFactory {
 
 	}
 
+	/**
+	 * You can add manually planes
+	 * each time you type a plane it is save in the document pointed with path
+	 * @param path
+	 */
 	public static void addPlanesManualy(String path){
 		
 		SetPlanes res = new SetPlanes();
@@ -185,8 +190,9 @@ public class PlanesFactory {
 				p.addSpace(new Item(h,w,d));
 			}
 			
-			res.add(p);//Ajout de l'avion
+			res.add(p);//Add the plane
 			
+			PlanesFactory.exportPlanes(res, path); //Save
 			
 			System.out.println("***** Next plane ? (y/n)");
 
