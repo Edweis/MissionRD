@@ -48,19 +48,15 @@ public class ImportBoxes {
 			System.out.println("\t from : " + line);
 			System.out.println();
 			
-			br.readLine();//ligne vide
+			br.readLine();//line "height;width;depth"
+			br.readLine();//void line
 			
 			line =br.readLine(); 
 			String [] lines;
 			while (line != null) {
 				
 				
-				lines = line.split("\\*");
-				
-				//delete non digit values
-				lines[0] = lines[0].replaceAll("\\D+","");
-				lines[1] = lines[1].replaceAll("\\D+","");
-				lines[2] = lines[2].replaceAll("\\D+","");
+				lines = line.split(";");
 				
 				//add Item to the set
 				set.add(new Item(Integer.parseInt(lines[0]),Integer.parseInt(lines[1]),Integer.parseInt(lines[2])));
@@ -90,10 +86,11 @@ public class ImportBoxes {
 		try {
 			PrintWriter writer = new PrintWriter(path, "UTF-8");
 			writer.println(new Date());
+			writer.println("height; width; depth");
 			writer.println();
 
 			for (Item i : set) {
-				writer.println(i);
+				writer.println(i.getHeight()+";"+i.getWidth()+";"+i.getDepth());
 			}
 
 			writer.close();
