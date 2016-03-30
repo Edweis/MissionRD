@@ -16,7 +16,7 @@ public class SetBoxes implements Iterable<Item> {
 	 */
 	private ArrayList<int[]> sizesOfItems;
 
-	private int volume;
+	private long volume;
 
 	/**
 	 * Constructor that just initiates
@@ -60,8 +60,8 @@ public class SetBoxes implements Iterable<Item> {
 	public void rotatePairBoxes(Item i, int d, int a) {
 
 		double[][] calcul = new double[set.size() * 9][5];
-		int vi = i.getVolume();
-		int vj = 0;
+		long vi = i.getVolume();
+		long vj = 0;
 
 		for (int k = 0; k < calcul.length; k++) {
 			for (int j = 0; j < calcul[0].length; j++) {
@@ -558,7 +558,7 @@ public class SetBoxes implements Iterable<Item> {
 	 * 
 	 * @return the volume
 	 */
-	public int getVolume() {
+	public long getVolume() {
 		return volume;
 	}
 
@@ -573,5 +573,13 @@ public class SetBoxes implements Iterable<Item> {
 			res.add(i[0]);
 		}
 		return res;
+	}
+	
+	public String toString(){
+		String s = "This set of Boxes contains : ";
+		for (Item p : set) {
+			s = s + "\n" + p.toString();
+		}
+		return s;
 	}
 }
