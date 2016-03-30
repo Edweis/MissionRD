@@ -16,7 +16,6 @@ public class BoxesFactory {
 	static private boolean containerReady = false;
 	static private boolean setReady = false;
 
-
 	/**
 	 * Sets the container.
 	 *
@@ -32,51 +31,54 @@ public class BoxesFactory {
 		containerReady = true;
 	}
 
-	public static boolean  importBoxes(String path) {
+	/**
+	 * Import boxes from a CSV file
+	 * @param path
+	 * @return true if success, no otherwise
+	 */
+	public static boolean importBoxes(String path) {
 		boolean success = true;
 
 		try {
-			BufferedReader br = new BufferedReader (new FileReader (path));
+			BufferedReader br = new BufferedReader(new FileReader(path));
 
 			String line;
-			
+
 			System.out.println("*Importing boxes from " + path);
 			line = br.readLine();
 			System.out.println("\t from : " + line);
 			System.out.println();
-			
-			br.readLine();//line "height;width;depth"
-			br.readLine();//void line
-			
-			line =br.readLine(); 
-			String [] lines;
+
+			br.readLine();// line "height;width;depth"
+			br.readLine();// void line
+
+			line = br.readLine();
+			String[] lines;
 			while (line != null) {
-				
-				
+
 				lines = line.split(";");
-				
-				//add Item to the set
-				set.add(new Item(Integer.parseInt(lines[0]),Integer.parseInt(lines[1]),Integer.parseInt(lines[2])));
-				
-				
+
+				// add Item to the set
+				set.add(new Item(Integer.parseInt(lines[0]), Integer.parseInt(lines[1]), Integer.parseInt(lines[2])));
+
 				line = br.readLine();
-			} 
+			}
 			br.close();
 			setReady = true;
 		} catch (Exception e) {
-			
+
 			success = false;
 		}
-		
+
 		return success;
 	}
 
 	/**
-	 * Export set of boxes into a file.
+	 * Export set of boxes into a CSV file.
 	 *
 	 * @param path
 	 *            the path
-	 * @return true, if successful
+	 * @return true, if successful, false otherwise
 	 */
 	public static boolean exportBoxes(String path) {
 		boolean success = true;
@@ -87,7 +89,7 @@ public class BoxesFactory {
 			writer.println();
 
 			for (Item i : set) {
-				writer.println(i.getHeight()+";"+i.getWidth()+";"+i.getDepth());
+				writer.println(i.getHeight() + ";" + i.getWidth() + ";" + i.getDepth());
 			}
 
 			writer.close();
@@ -164,5 +166,9 @@ public class BoxesFactory {
 			System.out.println("The container or the set has not been defined");
 			return null;
 		}
+	}
+
+	public static Item getContainer() {
+		return container;
 	}
 }

@@ -1,22 +1,34 @@
 package application;
 
-import controller.Controller;
-import usefullFunctions.*;
+import model.Plane;
+import model.PlanesFactory;
+import model.SetPlanes;
 
 public class Application {
 
 	public static void main(String[] args) {
-		ImportBoxes.setContainer(230, 230, 590);
-		ImportBoxes.generateBoxes(5, 0.90, 80, 150);
-
-		ImportBoxes.exportBoxes("sauv/sauvegarde.txt");
-	
 		
-		ImportBoxes.importBoxes("sauv/sauvegarde.txt");
+//		BoxesFactory.setContainer(230, 230, 590);
+//		BoxesFactory.generateBoxes(5, 0.90, 80, 150);
+//
+//		BoxesFactory.exportBoxes("sauv/sauvegarde.txt");
+//	
+//		
+//		BoxesFactory.importBoxes("sauv/sauvegarde.txt");
+//		
+//		Controller c = new Controller();
+//		
+//		c.fill_layer(230, 100, 80, 0, BoxesFactory.getSet());
+//		
 		
-		Controller c = new Controller();
+		PlanesFactory.generatePlanes(3, 2, 3000, 2000);
 		
-		c.fill_layer(230, 100, 80, 0, ImportBoxes.getSet());
+		SetPlanes set = PlanesFactory.getSet();
+		
+		
+			System.out.println(set);
+			
+			PlanesFactory.exportPlanes("mesavions.csv");
 		
 	}
 
