@@ -57,231 +57,112 @@ public class SetBoxes implements Iterable<Item> {
 		}
 	}
 
-	public void rotatePairBoxes(Item i, int d, int a) {
-
-		double[][] calcul = new double[set.size() * 9][5];
-		long vi = i.getVolume();
-		long vj = 0;
-
-		for (int k = 0; k < calcul.length; k++) {
-			for (int j = 0; j < calcul[0].length; j++) {
-				if (k < set.size()) {
-					if (j == 0) {
-						calcul[k][j] = (double) k;
-					} else if (j == 1) {
-						vj = set.get(k).getVolume();
-						calcul[k][j] = (double) ((vi + vj) / (d * Math.max(i.getWidth(), set.get(k).getWidth()))
-								* Math.max(i.getHeight(), set.get(k).getHeight()));
-					} else if (j == 2) {
-						calcul[k][j] = (double) (i.getDepth() + set.get(k).getDepth());
-					} else if (j == 3) {
-						calcul[k][j] = Double.parseDouble(null);
-					} else if (j == 4) {
-						calcul[k][j] = Double.parseDouble("behind");
-					}
-				} else if (k < set.size() * 2) {
-					if (j == 0) {
-						calcul[k][j] = k - set.size();
-					} else if (j == 1) {
-						// the height becomes depth
-						vj = set.get(k - set.size()).getVolume();
-						calcul[k][j] = (double) (vi + vj)
-								/ (d * Math.max(i.getWidth(), set.get(k - set.size()).getDepth())
-										* Math.max(i.getHeight(), set.get(k - set.size()).getWidth()));
-					} else if (j == 2) {
-						calcul[k][j] = (double) ((i.getDepth() + set.get(k - set.size()).getHeight()));
-					} else if (j == 3) {
-						calcul[k][j] = Double.parseDouble("hd");
-					} else if (j == 4) {
-						calcul[k][j] = Double.parseDouble("behind");
-					}
-
-				} else if (k < set.size() * 3) {
-					if (j == 0) {
-						calcul[k][j] = k - set.size() * 2;
-					} else if (j == 1) {
-						// the width becomes the depth
-						vj = set.get(k - set.size() * 2).getVolume();
-						calcul[k][j] = (double) (vi + vj)
-								/ (d * Math.max(i.getWidth(), set.get(k - set.size() * 2).getHeight())
-										* Math.max(i.getHeight(), set.get(k - set.size() * 2).getDepth()));
-					} else if (j == 2) {
-						calcul[k][j] = (double) (i.getDepth() + set.get(k - set.size() * 2).getWidth());
-					} else if (j == 3) {
-						calcul[k][j] = Double.parseDouble("wd");
-						;
-					} else if (j == 4) {
-						calcul[k][j] = Double.parseDouble("behind");
-					}
-					// The box k is on the box i
-				} else if (k < set.size() * 4) {
-					if (j == 0) {
-						calcul[k][j] = k - set.size() * 3;
-					} else if (j == 1) {
-						vj = set.get(k - set.size() * 3).getVolume();
-						calcul[k][j] = (double) (vi + vj)
-								/ (d * Math.max(i.getDepth(), set.get(k - set.size() * 3).getWidth()))
-								* Math.max(i.getWidth(), set.get(k - set.size() * 3).getHeight());
-					} else if (j == 2) {
-						calcul[k][j] = (double) (i.getHeight() + set.get(k - set.size() * 3).getDepth());
-					} else if (j == 3) {
-						calcul[k][j] = Double.parseDouble(null);
-						;
-					} else if (j == 4) {
-						calcul[k][j] = Double.parseDouble("on");
-					}
-
-				} else if (k < set.size() * 5) {
-					if (j == 0) {
-						calcul[k][j] = k - set.size() * 4;
-					} else if (j == 1) {
-						vj = set.get(k - set.size() * 4).getVolume();
-						calcul[k][j] = (double) (vi + vj)
-								/ (d * Math.max(i.getDepth(), set.get(k - set.size() * 4).getDepth())
-										* Math.max(i.getWidth(), set.get(k - set.size() * 4).getWidth()));
-					} else if (j == 2) {
-						calcul[k][j] = (double) (i.getHeight() + set.get(k - set.size() * 4).getHeight());
-					} else if (j == 3) {
-						calcul[k][j] = Double.parseDouble("hd");
-						;
-					} else if (j == 4) {
-						calcul[k][j] = Double.parseDouble("on");
-					}
-
-				} else if (k < set.size() * 6) {
-					if (j == 0) {
-						calcul[k][j] = k - set.size() * 5;
-					} else if (j == 1) {
-						vj = set.get(k - set.size() * 5).getVolume();
-						calcul[k][j] = (double) (vi + vj)
-								/ (d * Math.max(i.getDepth(), set.get(k - set.size() * 5).getHeight())
-										* Math.max(i.getWidth(), set.get(k - set.size() * 5).getDepth()));
-					} else if (j == 2) {
-						calcul[k][j] = (double) (i.getHeight() + set.get(k - set.size() * 5).getWidth());
-					} else if (j == 3) {
-						calcul[k][j] = Double.parseDouble("wd");
-						;
-					} else if (j == 4) {
-						calcul[k][j] = Double.parseDouble("on");
-					}
-					// The box k is setext to the box i
-				} else if (k < set.size() * 7) {
-					if (j == 0) {
-						calcul[k][j] = k - set.size() * 6;
-					} else if (j == 1) {
-						vj = set.get(k - set.size() * 6).getVolume();
-						calcul[k][j] = (double) (vi + vj)
-								/ (d * Math.max(i.getHeight(), set.get(k - set.size() * 6).getWidth()))
-								* Math.max(i.getDepth(), set.get(k - set.size() * 6).getHeight());
-						// (i.getWidth() + set.get(k - set.size() *
-						// 6).getDepth());
-					} else if (j == 2) {
-						calcul[k][j] = (double) (i.getWidth() + set.get(k - set.size() * 6).getDepth());
-					} else if (j == 3) {
-						calcul[k][j] = Double.parseDouble(null);
-						;
-					} else if (j == 4) {
-						calcul[k][j] = Double.parseDouble("next");
-					}
-				} else if (k < set.size() * 8) {
-					if (j == 0) {
-						calcul[k][j] = k - set.size() * 7;
-					} else if (j == 1) {
-						vj = set.get(k - set.size() * 7).getVolume();
-						calcul[k][j] = (double) (vi + vj)
-								/ (d * Math.max(i.getHeight(), set.get(k - set.size() * 7).getDepth())
-										* Math.max(i.getDepth(), set.get(k - set.size() * 7).getWidth()));
-					} else if (j == 2) {
-						calcul[k][j] = (double) (i.getWidth() + set.get(k - set.size() * 7).getDepth());
-					} else if (j == 3) {
-						calcul[k][j] = Double.parseDouble("hd");
-						;
-					} else if (j == 4) {
-						calcul[k][j] = Double.parseDouble("next");
-					}
-				} else if (k < set.size() * 9) {
-					if (j == 0) {
-						calcul[k][j] = k - set.size() * 8;
-					} else if (j == 1) {
-						vj = set.get(k).getVolume();
-						calcul[k][j] = (double) (vi + vj)
-								/ (d * Math.max(i.getHeight(), set.get(k - set.size() * 8).getHeight())
-										* Math.max(i.getDepth(), set.get(k - set.size() * 8).getDepth()));
-					} else if (j == 2) {
-						calcul[k][j] = (double) (i.getWidth() + set.get(k - set.size() * 8).getDepth());
-					} else if (j == 3) {
-						calcul[k][j] = Double.parseDouble("wd");
-						;
-					} else if (j == 4) {
-						calcul[k][j] = Double.parseDouble("next");
-					}
-				}
-
+	/**
+	 * Turn all boxes except one
+	 * 
+	 * @param i
+	 *            = Index of the box which is not rotated
+	 * @param rot
+	 *            = Direction of rotation
+	 */
+	public void switchDimensions(int i, String rot) {
+		for (int k = 0; k < set.size(); k++) {
+			if (k != i) {
+				set.get(k).switchDimension(rot);
 			}
 		}
-		double max = 0;
-		int indexmax = 0;
-		for (int k = 0; k < calcul.length; k++) {
-			if (calcul[k][2] < d) {
-				if (calcul[k][1] > max) {
-					max = calcul[k][1];
-					if (k < set.size()) {
-						indexmax = k;
-					} else if (k < set.size() * 2) {
-						indexmax = k - set.size();
-					} else if (k < set.size() * 3) {
-						indexmax = k - set.size() * 2;
-					} else if (k < set.size() * 4) {
-						indexmax = k - set.size() * 3;
-					} else if (k < set.size() * 5) {
-						indexmax = k - set.size() * 4;
-					} else if (k < set.size() * 6) {
-						indexmax = k - set.size() * 5;
-					} else if (k < set.size() * 7) {
-						indexmax = k - set.size() * 6;
-					} else if (k < set.size() * 8) {
-						indexmax = k - set.size() * 7;
-					} else if (k < set.size() * 9) {
-						indexmax = k - set.size() * 8;
-					}
+	}
 
+	/**
+	 * Through all boxes except the one studied(index box) and tries to couple the 2 in every possible way.
+	 * Then selects the best combination as the sum of boxes depths less than the tested depth and that beta is maximum.
+	 * 
+	 * @param depth = depth not to exceed
+	 * @param index = index of the tested box
+	 */
+	public void rotatePairBoxes(int depth, int index) {
+
+
+		CalculPairBoxes[] calcul = new CalculPairBoxes[(set.size() * 9)-9];
+		String rot = null, pos = "behind";
+		double vi = set.get(index).getVolume();
+		double vj = 0;
+		int n = 0;
+		double max=0;
+		double b, c;
+
+		for (int k = 0; k < calcul.length; k++) {
+			if (n!=index){
+				
+			if (k == set.size()-1) {
+				n = 0;
+				rot = "wd";
+				switchDimensions(index, rot);
+			} else if (k == set.size() * 2-2) {
+				rot = "dw";
+				switchDimensions(index, rot);
+				rot = "hd";
+				switchDimensions(index, rot);
+				n = 0;
+			} else if (k == set.size() * 3-3) {
+				n = 0;
+				rot = "dh";
+				pos = "up";
+				switchDimensions(index, rot);
+				rot=null;
+				set.get(index).switchDimension("hd");
+			} else if (k == set.size() * 4-4) {
+				n = 0;
+				rot = "wd";
+				switchDimensions(index, rot);
+			} else if (k == set.size() * 5-5) {
+				n = 0;
+				rot = "dw";
+				switchDimensions(index, rot);
+				rot = "hd";
+				switchDimensions(index, rot);
+			} else if (k == set.size() * 6-6) {
+				n = 0;
+				rot = "dh";
+				pos = "next";
+				switchDimensions(index, rot);
+				rot=null;
+				set.get(index).switchDimension("dh");
+				set.get(index).switchDimension("wd");
+			} else if (k == set.size() * 7-7) {
+				n = 0;
+				rot = "wd";
+				switchDimensions(index, rot);
+			} else if (k == set.size() * 8-8) {
+				n = 0;
+				n = 0;
+				rot = "dw";
+				switchDimensions(index, rot);
+				rot = "hd";
+				switchDimensions(index, rot);
+			}
+			vj = set.get(n).getVolume();
+			b = (vi + vj) / (depth * Math.max(set.get(index).getWidth(), set.get(n).getWidth())
+					* Math.max(set.get(index).getHeight(), set.get(n).getHeight()));
+			c = set.get(index).getDepth() + set.get(n).getDepth();
+			CalculPairBoxes cpb = new CalculPairBoxes(n, b, c, rot, pos);
+			calcul[k] = cpb;
+			}else{
+				n++;
+				k--;
+			}
+		}
+		
+		for (int k = 0; k < calcul.length; k++) {
+			calcul[k].affichage();
+			if (calcul[k].getSumdepth()<=depth){
+				if (max<calcul[k].getBeta()){
+					max=calcul[k].getBeta();
+					index =k;
 				}
 			}
 		}
-		System.out.println("Solution : " + indexmax);
-
-		Item it = null;
-		if (calcul[indexmax][3] == 1) {
-			it = new Item(Math.max(i.getWidth(), set.get(indexmax).getWidth()),
-					Math.max(i.getHeight(), set.get(indexmax).getHeight()), d);
-		} else if (calcul[indexmax][3] == 2) {
-			it = new Item(Math.max(i.getWidth(), set.get(indexmax).getDepth()),
-					Math.max(i.getHeight(), set.get(indexmax).getWidth()), d);
-		} else if (calcul[indexmax][3] == 3) {
-			it = new Item(Math.max(i.getWidth(), set.get(indexmax).getHeight()),
-					Math.max(i.getHeight(), set.get(indexmax).getDepth()), d);
-		} else if (calcul[indexmax][3] == 4) {
-			it = new Item(Math.max(i.getWidth(), set.get(indexmax).getHeight()),
-					Math.max(i.getHeight(), set.get(indexmax).getDepth()), d);
-		} else if (calcul[indexmax][3] == 5) {
-			it = new Item(Math.max(i.getDepth(), set.get(indexmax).getDepth()),
-					Math.max(i.getWidth(), set.get(indexmax).getWidth()), d);
-		} else if (calcul[indexmax][3] == 6) {
-			it = new Item(Math.max(i.getDepth(), set.get(indexmax).getHeight()),
-					Math.max(i.getWidth(), set.get(indexmax).getDepth()), d);
-		} else if (calcul[indexmax][3] == 7) {
-			it = new Item(Math.max(i.getHeight(), set.get(indexmax).getWidth()),
-					Math.max(i.getDepth(), set.get(indexmax).getHeight()), d);
-		} else if (calcul[indexmax][3] == 8) {
-			it = new Item(Math.max(i.getHeight(), set.get(indexmax).getDepth()),
-					Math.max(i.getDepth(), set.get(indexmax).getWidth()), d);
-		} else if (calcul[indexmax][3] == 9) {
-			it = new Item(Math.max(i.getHeight(), set.get(indexmax).getHeight()),
-					Math.max(i.getDepth(), set.get(indexmax).getDepth()), d);
-		}
-		set.add(it);
-		set.remove(indexmax);
-		set.remove(i);
+		System.out.println(index);
 	}
 
 	/**
@@ -574,8 +455,8 @@ public class SetBoxes implements Iterable<Item> {
 		}
 		return res;
 	}
-	
-	public String toString(){
+
+	public String toString() {
 		String s = "This set of Boxes contains : ";
 		for (Item p : set) {
 			s = s + "\n" + p.toString();
