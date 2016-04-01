@@ -55,7 +55,7 @@ public class SetBoxesOrganized extends SetBoxes {
 		default:
 			System.out.println("# ERROR  '"+direction+"' must be equalt to 'up', 'left', or 'front'");
 			break;
-		#}
+		}
 	}
 
 }
