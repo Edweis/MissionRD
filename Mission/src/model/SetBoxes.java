@@ -10,16 +10,16 @@ public class SetBoxes implements Iterable<Item> {
 	/**
 	 * set = set of Boxes
 	 */
-	private ArrayList<Item> set;
+	protected ArrayList<Item> set;
 
 	/**
 	 * sizesOfItems = array with two values in each case : a size and his
 	 * occurrence. For instance [20][5] means that there is 5 boxes which have
 	 * an edge which size 20.
 	 */
-	private ArrayList<int[]> sizesOfItems;
+	protected ArrayList<int[]> sizesOfItems;
 
-	private long volume;
+	protected long volume;
 
 	/**
 	 * Constructor that just initiates

@@ -2,7 +2,10 @@ package model;
 
 public class Item {
 
-	private int height, width, depth, x, y, z;
+	private int height, width, depth, leftPos, frontPos, upPos;
+
+	
+
 	private boolean turn;
 
 	private long volume;
@@ -14,7 +17,7 @@ public class Item {
 
 		volume = h * w * d;
 
-		x = y = z = 0;
+		leftPos = frontPos = upPos = -1;
 	}
 
 	public void switchDimension(String s) {
@@ -133,7 +136,14 @@ public class Item {
 
 	}
 
+	
+	
+	
+	
+	
+	
 	// Getters and setters
+	
 	public long getVolume() {
 		return volume;
 	}
@@ -170,28 +180,21 @@ public class Item {
 		this.depth = depth;
 	}
 
-	public int getX() {
-		return x;
+	public void setPosition(int frontPosition, int leftPosition, int upPosition){
+		frontPos = frontPosition;
+		leftPos = leftPosition;
+		upPos = upPosition;
+	}
+	
+	public int getLeftPos() {
+		return leftPos;
 	}
 
-	public void setX(int x) {
-		this.x = x;
+	public int getFrontPos() {
+		return frontPos;
 	}
 
-	public int getY() {
-		return y;
+	public int getUpPos() {
+		return upPos;
 	}
-
-	public void setY(int y) {
-		this.y = y;
-	}
-
-	public int getZ() {
-		return z;
-	}
-
-	public void setZ(int z) {
-		this.z = z;
-	}
-
 }
