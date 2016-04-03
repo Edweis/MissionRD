@@ -1,4 +1,5 @@
-package usefullFunctions;
+package model.Factories;
+
 
 import java.io.BufferedReader;
 import java.io.FileReader;
