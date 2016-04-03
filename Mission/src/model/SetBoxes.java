@@ -123,7 +123,7 @@ public class SetBoxes implements Iterable<Item> {
 	 * @param rot
 	 *            = Direction of rotation
 	 */
-	public void switchDimensions(int i, String rot) {
+	public void switchAllDimensions(int i, String rot) {
 		for (int k = 0; k < set.size(); k++) {
 			if (k != i) {
 				set.get(k).switchDimension(rot);
@@ -157,49 +157,49 @@ public class SetBoxes implements Iterable<Item> {
 				if (k == set.size() - 1) {
 					n = 0;
 					rot = "wd";
-					switchDimensions(index, rot);
+					switchAllDimensions(index, rot);
 				} else if (k == set.size() * 2 - 2) {
 					rot = "dw";
-					switchDimensions(index, rot);
+					switchAllDimensions(index, rot);
 					rot = "hd";
-					switchDimensions(index, rot);
+					switchAllDimensions(index, rot);
 					n = 0;
 				} else if (k == set.size() * 3 - 3) {
 					n = 0;
 					rot = "dh";
 					pos = "up";
-					switchDimensions(index, rot);
+					switchAllDimensions(index, rot);
 					rot = null;
 					set.get(index).switchDimension("hd");
 				} else if (k == set.size() * 4 - 4) {
 					n = 0;
 					rot = "wd";
-					switchDimensions(index, rot);
+					switchAllDimensions(index, rot);
 				} else if (k == set.size() * 5 - 5) {
 					n = 0;
 					rot = "dw";
-					switchDimensions(index, rot);
+					switchAllDimensions(index, rot);
 					rot = "hd";
-					switchDimensions(index, rot);
+					switchAllDimensions(index, rot);
 				} else if (k == set.size() * 6 - 6) {
 					n = 0;
 					rot = "dh";
 					pos = "next";
-					switchDimensions(index, rot);
+					switchAllDimensions(index, rot);
 					rot = null;
 					set.get(index).switchDimension("dh");
 					set.get(index).switchDimension("wd");
 				} else if (k == set.size() * 7 - 7) {
 					n = 0;
 					rot = "wd";
-					switchDimensions(index, rot);
+					switchAllDimensions(index, rot);
 				} else if (k == set.size() * 8 - 8) {
 					n = 0;
 					n = 0;
 					rot = "dw";
-					switchDimensions(index, rot);
+					switchAllDimensions(index, rot);
 					rot = "hd";
-					switchDimensions(index, rot);
+					switchAllDimensions(index, rot);
 				}
 				vj = set.get(n).getVolume();
 				b = (vi + vj) / (depth * Math.max(set.get(index).getWidth(), set.get(n).getWidth())
@@ -212,7 +212,7 @@ public class SetBoxes implements Iterable<Item> {
 				k--;
 			}
 		}
-		switchDimensions(index, "dh");
+		switchAllDimensions(index, "dh");
 		set.get(index).switchDimension("dw");
 
 		for (int k = 0; k < calcul.length; k++) {
@@ -286,7 +286,6 @@ public class SetBoxes implements Iterable<Item> {
 		return res;
 	}
 
-	@Override
 	public Iterator<Item> iterator() {
 		return set.iterator();
 	}
