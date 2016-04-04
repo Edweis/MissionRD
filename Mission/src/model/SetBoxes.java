@@ -105,9 +105,10 @@ public class SetBoxes implements Iterable<Item> {
 	/**
 	 * Group two Boxes
 	 */
-	public void pairBoxes(Item it, int depth) {
+	public void pairBoxes(int depth) {
 		CalculPairBoxes cpb;
-		set.get(set.indexOf(it)).rotateBoxMaxDepth(depth, set.get(set.indexOf(it)));
+		
+		Item it=rotateBoxesMaxDepth(depth);
 		cpb = rotatePairBoxes(depth, it);
 
 		if (cpb.getPos() == "up") {

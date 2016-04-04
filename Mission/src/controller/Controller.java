@@ -66,7 +66,7 @@ public class Controller {
 	}
 
 	// Algorithm attributes
-	private int Vinit = 0; // V*
+	private long Vinit = 0; // V*
 	private SetBoxes BoxInside = new SetBoxes(); // X*
 
 	/**
@@ -74,7 +74,7 @@ public class Controller {
 	 * @param depth
 	 * @param Volume
 	 */
-	public void chooseDepth(int depth, int Volume,SetBoxes sb) {
+	public void chooseDepth(int depth, long Volume,SetBoxes sb) {
 		
 		ArrayList <Integer> depths = new ArrayList<Integer>();
 		
@@ -91,8 +91,9 @@ public class Controller {
 			}
 			
 		for (int k =0;k<depths.size();k++){
-			sb.pairBoxes(???, depths.get(k));
+			sb.pairBoxes(depths.get(k));
 			currentBestFilling=fill_layer(W,H,depth,0,sb);
+			long U=currentBestFilling.getVolume();
 			chooseDepth(depth-depths.get(k),Volume+U,sb);
 		}
 		
