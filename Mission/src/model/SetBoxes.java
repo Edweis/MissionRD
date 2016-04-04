@@ -3,6 +3,8 @@ package model;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import controller.Controller;
+
 public class SetBoxes implements Iterable<Item> {
 
 	int Vinit = 0;
@@ -30,6 +32,7 @@ public class SetBoxes implements Iterable<Item> {
 		volume = 0;
 	}
 
+	
 	/**
 	 * Rotate boxes of N in order to maximize their width.
 	 */
@@ -97,23 +100,7 @@ public class SetBoxes implements Iterable<Item> {
 		set.trimToSize();
 	}
 
-	/**
-	 * 
-	 * @param depth
-	 * @param Volume
-	 */
-	public void chooseDepth(int depth, int Volume) {
-		if (Volume > Vinit) {
-
-			Vinit = Volume;
-		}
-		for (int i = 0; i < set.size(); i++) {
-			if (depth < set.get(0).minEdge()) {
-
-			}
-		}
-
-	}
+	
 
 	/**
 	 * Turn all boxes except one

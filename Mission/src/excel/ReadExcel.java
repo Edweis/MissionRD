@@ -24,8 +24,7 @@ public class ReadExcel {
 
 		try {
 
-			// String filename = SelectFile();
-			String filename = "src/excel/ESCRIM DAC 2015 pt du gard (2003).xls";
+			String filename = SelectFile();
 			FileInputStream file = new FileInputStream(new File(filename));
 
 			// Create a workbook
