@@ -1,5 +1,6 @@
 package vue;
 
+import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
@@ -9,7 +10,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 
-public class Displayer {
+public class Displayer extends Application{
 
 	public void start(Stage primaryStage) {
 
