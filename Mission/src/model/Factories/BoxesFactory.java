@@ -155,7 +155,6 @@ public class BoxesFactory {
 		for (int i = 0; i < liste.size(); i++) {
 
 			dim = liste.get(i).getDimension();
-			System.out.println(dim);
 			if (dim.contains("dans")|| dim=="") {
 				d = 0;
 				w = 0;
@@ -168,17 +167,12 @@ public class BoxesFactory {
 				w = Integer.valueOf(dim.substring(mil + 1, end));
 				h = Integer.valueOf(dim.substring(end + 1));
 			}
-			System.out.println(d + " " + w + " " + h + " ");
 			nat=liste.get(i).getNature();
 			num = liste.get(i).getNumero();
 			vol = liste.get(i).getVolume();
 			p = liste.get(i).getPoids();
 			Item it = new Item(nat,num, h, w, d, vol, p);
 			set.add(it);
-		}
-		
-		for (int k=0; k<set.size();k++){
-			System.out.println(set.get(k));
 		}
 	}
 }

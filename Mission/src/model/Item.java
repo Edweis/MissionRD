@@ -3,11 +3,10 @@ package model;
 public class Item {
 
 	private int height, width, depth, leftPos, frontPos, upPos;
-	private double numero, volum, poids;
+	private double numero, volume, poids;
 	private String nature;
 	private boolean turn;
 
-	private long volume;
 
 	public Item(int h, int w, int d) {
 		height = h;
@@ -25,7 +24,7 @@ public class Item {
 		height = h;
 		width = w;
 		depth = d;
-		volum = v;
+		volume = v;
 		poids = p;
 
 	}
@@ -69,7 +68,14 @@ public class Item {
 			}
 		}
 	}
-
+	
+/**
+ * 
+ */
+	public String tocsv(Item i) {
+		return i.getNature()+";"+i.getNumero()+";"+i.getHeight() + ";" + i.getWidth() + ";" + i.getDepth()+";"+i.getVolume()+";";
+	}
+	
 	/**
 	 * return the shortest edge of the item
 	 *
@@ -148,7 +154,7 @@ public class Item {
 
 	// Getters and setters
 
-	public long getVolume() {
+	public double getVolume() {
 		return volume;
 	}
 
@@ -200,5 +206,75 @@ public class Item {
 
 	public int getUpPos() {
 		return upPos;
+	}
+
+	/**
+	 * @return the numero
+	 */
+	public double getNumero() {
+		return numero;
+	}
+
+	/**
+	 * @param numero the numero to set
+	 */
+	public void setNumero(double numero) {
+		this.numero = numero;
+	}
+
+	/**
+	 * @return the poids
+	 */
+	public double getPoids() {
+		return poids;
+	}
+
+	/**
+	 * @param poids the poids to set
+	 */
+	public void setPoids(double poids) {
+		this.poids = poids;
+	}
+
+	/**
+	 * @return the nature
+	 */
+	public String getNature() {
+		return nature;
+	}
+
+	/**
+	 * @param nature the nature to set
+	 */
+	public void setNature(String nature) {
+		this.nature = nature;
+	}
+
+	/**
+	 * @param leftPos the leftPos to set
+	 */
+	public void setLeftPos(int leftPos) {
+		this.leftPos = leftPos;
+	}
+
+	/**
+	 * @param frontPos the frontPos to set
+	 */
+	public void setFrontPos(int frontPos) {
+		this.frontPos = frontPos;
+	}
+
+	/**
+	 * @param upPos the upPos to set
+	 */
+	public void setUpPos(int upPos) {
+		this.upPos = upPos;
+	}
+
+	/**
+	 * @param volume the volume to set
+	 */
+	public void setVolume(long volume) {
+		this.volume = volume;
 	}
 }
