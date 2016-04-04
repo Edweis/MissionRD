@@ -1,9 +1,13 @@
 package application;
 
+import java.util.ArrayList;
+
+import excel.ObjetExcel;
 import excel.ReadExcel;
 import javafx.stage.Stage;
 import model.Item;
 import model.SetBoxes;
+import model.Factories.BoxesFactory;
 import vue.Displayer;
 
 public class Main {
@@ -19,7 +23,9 @@ public class Main {
 
 	private static void PierreTests(){
 		ReadExcel re= new ReadExcel();
-		re.read();
+		ArrayList<ObjetExcel> liste=re.read();
+		BoxesFactory bf=new BoxesFactory();
+		bf.createBoxes(liste);
 		
 	}
 

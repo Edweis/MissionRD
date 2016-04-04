@@ -1,4 +1,4 @@
-package model;
+package model.Factories;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -6,6 +6,10 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
+
+import model.Item;
+import model.Plane;
+import model.SetPlanes;
 
 public class PlanesFactory {
 

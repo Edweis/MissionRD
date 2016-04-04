@@ -3,9 +3,8 @@ package model;
 public class Item {
 
 	private int height, width, depth, leftPos, frontPos, upPos;
-
-	
-
+	private double numero, volum, poids;
+	private String nature;
 	private boolean turn;
 
 	private long volume;
@@ -18,6 +17,17 @@ public class Item {
 		volume = h * w * d;
 
 		leftPos = frontPos = upPos = -1;
+	}
+
+	public Item(String nat, double num, int h, int w, int d, double v, double p) {
+		nature = nat;
+		numero = num;
+		height = h;
+		width = w;
+		depth = d;
+		volum = v;
+		poids = p;
+
 	}
 
 	public void switchDimension(String s) {
@@ -93,7 +103,7 @@ public class Item {
 	}
 
 	public String toString() {
-		return "h=" + height + " * w=" + width + " * d=" + depth;
+		return "nature=" + nature +" * numero="+numero+ " * h=" + height + " * w=" + width + " * d=" + depth+" * vol="+volume+" * poids="+poids																																																																																																																																																																																																																																																																																														;
 	}
 
 	/**
@@ -136,14 +146,8 @@ public class Item {
 
 	}
 
-	
-	
-	
-	
-	
-	
 	// Getters and setters
-	
+
 	public long getVolume() {
 		return volume;
 	}
@@ -180,12 +184,12 @@ public class Item {
 		this.depth = depth;
 	}
 
-	public void setPosition(int frontPosition, int leftPosition, int upPosition){
+	public void setPosition(int frontPosition, int leftPosition, int upPosition) {
 		frontPos = frontPosition;
 		leftPos = leftPosition;
 		upPos = upPosition;
 	}
-	
+
 	public int getLeftPos() {
 		return leftPos;
 	}

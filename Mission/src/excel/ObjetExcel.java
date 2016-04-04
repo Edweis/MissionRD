@@ -27,6 +27,10 @@ public class ObjetExcel {
 		volume=vol;
 		poids=p;
 	}
+	
+	public void affichage(){
+		System.out.println(affectataire+" "+module+" "+nom_opt+" "+secteur+" "+nature+" "+numero+" "+designation+" "+article+" "+dimension+" "+volume+" "+poids);
+	}
 
 	/**
 	 * @return the affectataire

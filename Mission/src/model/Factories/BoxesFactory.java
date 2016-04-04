@@ -1,4 +1,4 @@
-package usefullFunctions;
+package model.Factories;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -6,6 +6,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Date;
 
+import excel.ObjetExcel;
 import model.Item;
 import model.SetBoxes;
 
@@ -99,8 +100,6 @@ public class BoxesFactory {
 	public static SetBoxes generateBoxes(Item container, int nbDifferentBoxes, double ratio, int lowerEdge,
 			int longerEdge) {
 
-	
-
 		SetBoxes set = new SetBoxes();
 
 		SetBoxes myBoxes = new SetBoxes();
@@ -145,4 +144,40 @@ public class BoxesFactory {
 		return set;
 	}
 
+	public void createBoxes(ArrayList<ObjetExcel> liste) {
+
+		SetBoxes set = new SetBoxes();
+		String dim = null,nat=null;
+		double num = 0, vol = 0, p = 0;
+		int h = 0, w = 0, d = 0;
+		
+		for (int i = 0; i < liste.size(); i++) {
+
+			dim = liste.get(i).getDimension();
+			System.out.println(dim);
+			if (dim.contains("dans")|| dim=="") {
+				d = 0;
+				w = 0;
+				h = 0;
+			} else {
+				int dep = 0;
+				int mil = dim.indexOf("X");
+				int end = dim.indexOf("X", mil + 1);
+				d = Integer.valueOf(dim.substring(dep, mil));
+				w = Integer.valueOf(dim.substring(mil + 1, end));
+				h = Integer.valueOf(dim.substring(end + 1));
+			}
+			System.out.println(d + " " + w + " " + h + " ");
+			nat=liste.get(i).getNature();
+			num = liste.get(i).getNumero();
+			vol = liste.get(i).getVolume();
+			p = liste.get(i).getPoids();
+			Item it = new Item(nat,num, h, w, d, vol, p);
+			set.add(it);
+		}
+		
+		for (int k=0; k<set.size();k++){
+			System.out.println(set.get(k));
+		}
+	}
 }
