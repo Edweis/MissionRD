@@ -173,6 +173,10 @@ public class BoxesFactory {
 			p = liste.get(i).getPoids();
 			Item it = new Item(nat,num, h, w, d, vol, p);
 			set.add(it);
+			
+			for(int k=0;k<set.size();k++){
+			System.out.println(set.get(k).toCSV(set.get(k)));
+			}
 		}
 	}
 }

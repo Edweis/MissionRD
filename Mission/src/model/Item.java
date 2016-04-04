@@ -70,9 +70,9 @@ public class Item {
 	}
 	
 /**
- * 
+ * Writes the content of an Item separated by ";"
  */
-	public String tocsv(Item i) {
+	public String toCSV(Item i) {
 		return i.getNature()+";"+i.getNumero()+";"+i.getHeight() + ";" + i.getWidth() + ";" + i.getDepth()+";"+i.getVolume()+";";
 	}
 	
