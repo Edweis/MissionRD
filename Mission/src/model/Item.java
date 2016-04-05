@@ -3,7 +3,8 @@ package model;
 public class Item {
 
 	private int height, width, depth, leftPos, frontPos, upPos;
-	private double numero, volume, poids;
+	private double numero, poids;
+	private long volume;
 	private String nature;
 	private boolean turn;
 
@@ -13,12 +14,12 @@ public class Item {
 		width = w;
 		depth = d;
 
-		volume = h * w * d;
+		volume = (long)h * (long) w *(long) d;
 
 		leftPos = frontPos = upPos = -1;
 	}
 
-	public Item(String nat, double num, int h, int w, int d, double v, double p) {
+	public Item(String nat, double num, int h, int w, int d, long v, double p) {
 		nature = nat;
 		numero = num;
 		height = h;
