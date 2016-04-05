@@ -27,8 +27,8 @@ public class Plane {
 		return name;
 	}
 	
-	public ArrayList<Item> getSpaces(){
-		return spaces;
+	public Item getSpaces(int index){
+		return spaces.get(index);
 	}
 	
 	public String toString(){
