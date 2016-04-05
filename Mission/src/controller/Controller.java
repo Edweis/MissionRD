@@ -117,6 +117,8 @@ public class Controller {
 			capacity = stripW;
 		} else if (contrainte.equals("height")) {
 			capacity = stripH;
+		} else{
+			return null;
 		}
 
 		for (Item box : boxes) {
