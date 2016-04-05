@@ -145,7 +145,7 @@ public class BoxesFactory {
 		return set;
 	}
 
-	public void createBoxes(ArrayList<ObjetExcel> liste) {
+	public SetBoxes createBoxes(ArrayList<ObjetExcel> liste) {
 
 		SetBoxes set = new SetBoxes();
 		String dim = null,nat=null;
@@ -174,9 +174,7 @@ public class BoxesFactory {
 			Item it = new Item(nat,num, h, w, d, vol, p);
 			set.add(it);
 			
-			for(int k=0;k<set.size();k++){
-			System.out.println(set.get(k).toCSV(set.get(k)));
-			}
 		}
+		return set;
 	}
 }

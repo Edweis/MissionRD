@@ -6,6 +6,7 @@ import usefullFunctions.FillLayer;
 
 import model.Item;
 import model.SetBoxes;
+import model.SetPlanes;
 
 public class Controller {
 
@@ -72,7 +73,7 @@ public class Controller {
 	 * @param depth
 	 * @param Volume
 	 */
-	public void chooseDepth(int depth, long Volume,SetBoxes sb) {
+	public void chooseDepth(int depth, long Volume,SetBoxes sb,SetPlanes sp) {
 		
 		ArrayList <Integer> depths = new ArrayList<Integer>();
 		
@@ -90,9 +91,9 @@ public class Controller {
 			
 		for (int k =0;k<depths.size();k++){
 			sb.pairBoxes(depths.get(k));
-			currentBestFilling=fill_layer(W,H,depth,0,sb);
+			currentBestFilling=fill_layer(sp.get(0).getSpaces(0).getWidth(),sp.get(0).getSpaces(0).getHeight(),depth,0,sb);
 			long U=currentBestFilling.getVolume();
-			chooseDepth(depth-depths.get(k),Volume+U,sb);
+			chooseDepth(depth-depths.get(k),Volume+U,sb,sp);
 		}
 		
 		}
