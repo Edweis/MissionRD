@@ -55,7 +55,6 @@ public class Controller {
 				// setBoxes K = fill_single_strip(height, boxes);
 				// fill_layer(width, height - h, LayerDepth,
 				// VolAlreadyPlacedBoxes + util.volumeOfBoxes(K),
-				// util.exclude(boites, K));
 			}
 
 		}
