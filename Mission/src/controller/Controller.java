@@ -104,14 +104,14 @@ public class Controller {
 	}
 
 	public SetBoxes fill_single_strip(int stripH, int stripW, int stripD, SetBoxes boxes, String contrainte) {
-		int capacity;
+		int capacity = 0;
 		SetBoxes K = new SetBoxes();
 		ArrayList<Item> feasibleBoxes = new ArrayList<Item>();
 		ArrayList<Item> discardedBoxes = new ArrayList<Item>();
 		ArrayList<Integer> a = new ArrayList<Integer>();
 		ArrayList<Integer> c = new ArrayList<Integer>();
 		int compteur = 0;
-		int box1, strip1, box2, strip2 = 0;
+		int box1 = 0, strip1 = 0, box2 = 0, strip2 = 0;
 
 		if (contrainte == "heigth") {
 			capacity = stripH;
@@ -132,7 +132,7 @@ public class Controller {
 				strip2 = stripH;
 			}
 			for (int i = 0; i < 2; i++) {
-				if (box.getWidth() > stripW || box2 > strip2) {
+				if (box1 > strip1 || box2 > strip2) {
 
 					if (contrainte == "heigth") {
 						box.switchDimension("wd");
