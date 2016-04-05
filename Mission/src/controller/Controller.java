@@ -12,11 +12,10 @@ public class Controller {
 	// Attributes for processing
 
 	// Attributes for box ranking
-	private String priorityRule = "b"; // Ranking priority for a set of box
-	private int sizeOfRankedReturn = 5; // Size of M1 or M2
-	private int whichFrequencyFunction = 1; // Number of the frequency function
-											// {1,
-	// 2, 3}
+	final private String priorityRule = "b"; // Ranking priority for a set of box
+	final private int sizeOfRankedReturn = 5; // Size of M1 or M2
+	final private int whichFrequencyFunction = 1; // Number of the frequency function {1,
+										// 2, 3}
 
 	// Algorithm Attributes
 	private SetBoxes currentBestFilling = new SetBoxes(); // L
