@@ -2,6 +2,7 @@ package application;
 
 import java.util.ArrayList;
 
+import controller.Controller;
 import excel.ObjetExcel;
 import excel.ReadExcel;
 import javafx.stage.Stage;
@@ -13,7 +14,7 @@ import vue.Displayer;
 public class Main {
 
 	public static void main(String[] args) {
-System.out.print("ee");
+		CharlieTests(); 
 		//PierreTests();
 	}
 
@@ -37,6 +38,13 @@ System.out.print("ee");
 	}
 
 	private static void CharlieTests(){
+	Item container=new Item(2000,1800,3000);
+	
+	SetBoxes boites = BoxesFactory.generateBoxes(container, 20, 0.9, 120, 250);
+	
+	BoxesFactory.exportBoxes(boites, "fichier.txt");
+	//Controller fdp = new Controller();
+	//fdp.fill_single_strip(, stripW, stripD, boites, "height");
 	
 }
 
