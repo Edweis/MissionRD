@@ -103,37 +103,32 @@ public class Controller {
 
 	}
 
-	public SetBoxes fill_single_strip(int stripH, int stripW, int stripD, SetBoxes boxes, String contrainte) {
 
-		int capacity;
-		SetBoxes K = new SetBoxes();
-		ArrayList<Item> feasibleBoxes = new ArrayList<Item>();
-		ArrayList<Item> discardedBoxes = new ArrayList<Item>();
-		ArrayList<Integer> a = new ArrayList<Integer>();
-		ArrayList<Integer> c = new ArrayList<Integer>();
-		int compteur = 0;
-
-		if (contrainte.equals("width")) {
-			capacity = stripW;
-		} else if (contrainte.equals("height")) {
-			capacity = stripH;
-		} else{
-			return null;
-		}
-
-		for (Item box : boxes) {
-			for (int i = 0; i < 2; i++) {
-				if (box.getWidth() > stripW || box.getDepth() > stripD || box.getHeight() > box.getWidth()
-						|| box.getHeight() > box.getDepth()) {
-
-					if (contrainte == "height") {
-						box.switchDimension("wd");
-					} else if (contrainte == "width") {
-						box.switchDimension("hd");
-					}
-					compteur = compteur + 1;
-				} else {
-					// feasibleBoxes.set(boxes.getSet().indexOf(box),box);
+	public SetBoxes fill_single_strip(int stripH, int stripW, int stripD, SetBoxes boxes,int capacity, String contrainte){
+		  SetBoxes K = new SetBoxes();
+		  ArrayList<Item> feasibleBoxes = new ArrayList<Item>();
+		  ArrayList<Item> discardedBoxes = new ArrayList<Item>();
+		  ArrayList<Integer> a=new ArrayList<Integer>();
+		  ArrayList<Integer> c=new ArrayList<Integer>();
+		  int compteur=0;
+		  int box1,strip1,box2,strip2 = 0;
+		  
+		  
+		  
+		  
+		for (Item box : boxes){
+			if (contrainte=="height"){box1=box.getWidth();strip1=stripW;box2=box.getDepth();strip2=stripD;}
+			else if (contrainte=="width"){box1=box.getDepth();strip1=stripD;box2=box.getHeight();strip2=stripH;}
+			for (int i=0;i<2;i++){
+				if (box.getWidth()>stripW || box2>strip2){  
+					
+					if (contrainte=="heigth"){box.switchDimension("wd");}
+					else if (contrainte=="width"){box.switchDimension("hd");}
+					compteur=compteur+1;
+				}
+				else
+				{
+					//feasibleBoxes.set(boxes.getSet().indexOf(box),box);
 					feasibleBoxes.add(box);
 					if (contrainte == "heigth") {
 						a.add(box.getHeight());
