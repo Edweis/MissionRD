@@ -3,6 +3,8 @@ package model;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import controller.Controller;
+
 public class SetBoxes implements Iterable<Item> {
 
 	int Vinit = 0;
@@ -60,12 +62,53 @@ public class SetBoxes implements Iterable<Item> {
 		}
 	}
 
+	public Item rotateBoxesMaxDepth(int d) {
+
+		double[] calcul = new double[set.size()];
+		int indexmax = 0;
+		int calculmax = 0;
+
+		for (int k = 0; k < set.size(); k++) {
+
+			int max = set.get(k).maxEdge();
+			int dj = 0;
+			String rot = null;
+			double a = 0;
+
+			// Search the largest dimension of a box less or equal than d and
+			// rotate
+			// the box
+			if (set.get(k).getDepth() <= d) {
+				dj = set.get(k).getDepth();
+			}
+			if (set.get(k).getHeight() <= d && dj < set.get(k).getHeight()) {
+				dj = set.get(k).getHeight();
+				rot = "hd";
+			}
+			if (set.get(k).getWidth() <= d && dj < set.get(k).getWidth()) {
+				dj = set.get(k).getWidth();
+				rot = "wd";
+			}
+
+			System.out.println(rot);
+			set.get(k).switchDimension(rot);
+
+			// Calculates the ratio dj/d
+			calcul[k] = (double) (set.get(k).getDepth() / d);
+			if (calcul[k] > calculmax) {
+				indexmax = k;
+			}
+		}
+		return set.get(indexmax);
+	}
+
 	/**
 	 * Group two Boxes
 	 */
-	public void pairBoxes(Item it, int depth) {
+	public void pairBoxes(int depth) {
 		CalculPairBoxes cpb;
-		set.get(set.indexOf(it)).rotateBoxMaxDepth(depth, set.get(set.indexOf(it)));
+		
+		Item it=rotateBoxesMaxDepth(depth);
 		cpb = rotatePairBoxes(depth, it);
 
 		if (cpb.getPos() == "up") {
@@ -95,24 +138,6 @@ public class SetBoxes implements Iterable<Item> {
 		set.remove(cpb.getIndexitem());
 		set.add(i);
 		set.trimToSize();
-	}
-
-	/**
-	 * 
-	 * @param depth
-	 * @param Volume
-	 */
-	public void chooseDepth(int depth, int Volume) {
-		if (Volume > Vinit) {
-
-			Vinit = Volume;
-		}
-		for (int i = 0; i < set.size(); i++) {
-			if (depth < set.get(0).minEdge()) {
-
-			}
-		}
-
 	}
 
 	/**
@@ -147,7 +172,8 @@ public class SetBoxes implements Iterable<Item> {
 		String rot = null, pos = "behind";
 		double vi = set.get(set.indexOf(it)).getVolume();
 		double vj = 0;
-		int n = 0;int index=0;
+		int n = 0;
+		int index = 0;
 		double max = 0;
 		double b, c;
 
