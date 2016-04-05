@@ -21,10 +21,10 @@ public class Controller {
 
 	// Algorithm Attributes
 	private SetBoxes currentBestFilling = new SetBoxes(); // L
-	private int bestFilling_ObjectiveValue; // U*
+	private long bestFilling_ObjectiveValue; // U*
 
 	// fill_layer(w/, h/, d', U, N'')
-	public SetBoxes fill_layer(int width, int height, int LayerDepth, int VolAlreadyPlacedBoxes, SetBoxes boites) {
+	public SetBoxes fill_layer(int width, int height, int LayerDepth, long VolAlreadyPlacedBoxes, SetBoxes boites) {
 
 		// We update the volume of placed boxes
 		if (VolAlreadyPlacedBoxes > bestFilling_ObjectiveValue) {
@@ -39,25 +39,29 @@ public class Controller {
 		} else {
 			ArrayList<Integer> M2;
 
-			// ---------- PACK VERTICAL STRIP
+			/** 
+			 *  PACK HORIZONTAL STRIP
+			 */
 			boites.rotateBoxesMaxWidth();
 			M2 = selectBestRank(boites);
 
 			for (Integer w : M2) {
 
-				SetBoxes K = fill_single_strip(height, width, LayerDepth, boites, "width");
-				// fill_layer(width - w, height, LayerDepth,
-				// VolAlreadyPlacedBoxes + K.getVolume(), boites.exclude(K));
+				SetBoxes K = fill_single_strip(height, width, LayerDepth, boites, "height");
+				boites.exclude(K);
+				fill_layer(width - w, height, LayerDepth, VolAlreadyPlacedBoxes + K.getVolume(), boites);
 			}
 
-			// ---------- PACK VERTICAL STRIP
+			/** 
+			 *  PACK VERTICAL STRIP
+			 */
 			boites.rotateBoxesMaxHeight();
 			M2 = selectBestRank(boites);
 
 			for (Integer h : M2) {
-				// setBoxes K = fill_single_strip(height, boxes);
-				// fill_layer(width, height - h, LayerDepth,
-				// VolAlreadyPlacedBoxes + util.volumeOfBoxes(K),
+				SetBoxes K = fill_single_strip(height, width, LayerDepth, boites, "width");
+				boites.exclude(K);
+				fill_layer(width, height - h, LayerDepth, VolAlreadyPlacedBoxes + K.getVolume(), boites);
 			}
 
 		}
