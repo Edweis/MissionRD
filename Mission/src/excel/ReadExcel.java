@@ -19,7 +19,8 @@ public class ReadExcel {
 	public ArrayList<ObjetExcel> read() {
 
 		String aff = null, mod = null, opt = null, sec = null, nat = null, des = null, art = null, dim = null;
-		double num = 0, vol = 0, poids = 0;
+		double num = 0, poids = 0;
+		long vol=0;
 		ArrayList<ObjetExcel> liste_oe = new ArrayList<ObjetExcel>();
 
 		try {
@@ -73,7 +74,7 @@ public class ReadExcel {
 							dim = cell.getStringCellValue();
 							break;
 						case 9:
-							vol = cell.getNumericCellValue();
+							vol = (long)cell.getNumericCellValue();
 							break;
 						case 10:
 							poids = cell.getNumericCellValue();

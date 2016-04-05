@@ -11,10 +11,10 @@ public class ObjetExcel {
 	private String designation =null;
 	private String article =null;
 	private String dimension=null;
-	private double volume=0;
+	private long volume=0;
 	private double poids =0;
 	
-	public ObjetExcel(String a, String m, String no,String sec,String nat, double num,String des,String art,String dim,double vol,double p){
+	public ObjetExcel(String a, String m, String no,String sec,String nat, double num,String des,String art,String dim,long vol,double p){
 		affectataire=a;
 		module=m;
 		nom_opt=no;
@@ -161,14 +161,14 @@ public class ObjetExcel {
 	/**
 	 * @return the volume
 	 */
-	public double getVolume() {
+	public long getVolume() {
 		return volume;
 	}
 
 	/**
 	 * @param volume the volume to set
 	 */
-	public void setVolume(double volume) {
+	public void setVolume(long volume) {
 		this.volume = volume;
 	}
 

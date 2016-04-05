@@ -149,7 +149,8 @@ public class BoxesFactory {
 
 		SetBoxes set = new SetBoxes();
 		String dim = null,nat=null;
-		double num = 0, vol = 0, p = 0;
+		double num = 0, p = 0;
+		long vol=0;
 		int h = 0, w = 0, d = 0;
 		
 		for (int i = 0; i < liste.size(); i++) {
