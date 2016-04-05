@@ -31,7 +31,7 @@ System.out.print("ee");
 		SetBoxes sb=bf.createBoxes(liste);
 		
 		//Création des avions
-		S
+		
 		
 		
 	}
