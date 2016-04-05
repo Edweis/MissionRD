@@ -17,7 +17,6 @@ public class Main {
 		CharlieTests(); 
 		//PierreTests();
 	}
-
 	private static void FrancoisTests(){
 		Displayer d = new Displayer();
 		d.start(new Stage());
