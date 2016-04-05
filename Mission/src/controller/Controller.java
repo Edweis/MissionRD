@@ -1,12 +1,11 @@
 package controller;
 
-import java.awt.HeadlessException;
 import java.util.ArrayList;
-import usefullFunctions.FillLayer;
 
 import model.Item;
 import model.SetBoxes;
 import model.SetPlanes;
+import usefullFunctions.FillLayer;
 
 public class Controller {
 
@@ -45,7 +44,8 @@ public class Controller {
 			M2 = selectBestRank(boites);
 
 			for (Integer w : M2) {
-				// setBoxes K = fill_single_strip(height, boxes);
+
+				SetBoxes K = fill_single_strip(height, width, LayerDepth, boites, "width");
 				// fill_layer(width - w, height, LayerDepth,
 				// VolAlreadyPlacedBoxes + K.getVolume(), boites.exclude(K));
 			}
@@ -75,7 +75,7 @@ public class Controller {
 	 * @param depth
 	 * @param Volume
 	 */
-	public void chooseDepth(int depth, long Volume, SetBoxes sb,SetPlanes sp) {
+	public void chooseDepth(int depth, long Volume, SetBoxes sb, SetPlanes sp) {
 
 		ArrayList<Integer> depths = new ArrayList<Integer>();
 
@@ -93,18 +93,19 @@ public class Controller {
 
 			for (int k = 0; k < depths.size(); k++) {
 				sb.pairBoxes(depths.get(k));
-				currentBestFilling = fill_layer(sp.get(0).getSpaces().get(0).getWidth(), sp.get(0).getSpaces().get(0).getHeight(), depth, 0, sb);
+				currentBestFilling = fill_layer(sp.get(0).getSpaces().get(0).getWidth(),
+						sp.get(0).getSpaces().get(0).getHeight(), depth, 0, sb);
 				long U = currentBestFilling.getVolume();
-				chooseDepth(depth - depths.get(k), Volume + U, sb,sp);
+				chooseDepth(depth - depths.get(k), Volume + U, sb, sp);
 			}
 
 		}
 
 	}
 
-	public SetBoxes fill_single_strip(int stripH, int stripW, int stripD, SetBoxes boxes, int capacity,
-			String contrainte) {
+	public SetBoxes fill_single_strip(int stripH, int stripW, int stripD, SetBoxes boxes, String contrainte) {
 
+		int capacity;
 		SetBoxes K = new SetBoxes();
 		ArrayList<Item> feasibleBoxes = new ArrayList<Item>();
 		ArrayList<Item> discardedBoxes = new ArrayList<Item>();
@@ -112,12 +113,18 @@ public class Controller {
 		ArrayList<Integer> c = new ArrayList<Integer>();
 		int compteur = 0;
 
+		if (contrainte.equals("width")) {
+			capacity = stripW;
+		} else if (contrainte.equals("height")) {
+			capacity = stripH;
+		}
+
 		for (Item box : boxes) {
 			for (int i = 0; i < 2; i++) {
 				if (box.getWidth() > stripW || box.getDepth() > stripD || box.getHeight() > box.getWidth()
 						|| box.getHeight() > box.getDepth()) {
 
-					if (contrainte == "heigth") {
+					if (contrainte == "height") {
 						box.switchDimension("wd");
 					} else if (contrainte == "width") {
 						box.switchDimension("hd");
