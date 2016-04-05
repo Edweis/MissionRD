@@ -100,6 +100,13 @@ public class Controller {
 				currentBestFilling = fill_layer(sp.get(0).getSpaces().get(0).getWidth(),
 						sp.get(0).getSpaces().get(0).getHeight(), depth, 0, sb);
 				long U = currentBestFilling.getVolume();
+				for(int j=0;j<currentBestFilling.size();j++){
+					for(int l=0;l<sb.size();l++){
+						if(currentBestFilling.get(j)==sb.get(l)){
+							sb.remove();
+						}
+					}
+				}
 				chooseDepth(depth - depths.get(k), Volume + U, sb, sp);
 			}
 

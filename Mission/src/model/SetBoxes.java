@@ -328,6 +328,15 @@ public class SetBoxes implements Iterable<Item> {
 		updateAdding(element);
 
 	}
+	/**
+	 * 
+	 * @param element
+	 */
+	public void remove(Item element){
+		set.remove(element);
+		volume -=element.getVolume();
+		updateRemoving(element);
+	}
 
 	/**
 	 * exclude a set of boxes from this set
