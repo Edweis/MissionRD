@@ -23,10 +23,16 @@ System.out.print("ee");
 	}
 
 	private static void PierreTests(){
+		
+		//Création des boîtes
 		ReadExcel re= new ReadExcel();
 		ArrayList<ObjetExcel> liste=re.read();
 		BoxesFactory bf=new BoxesFactory();
-		bf.createBoxes(liste);
+		SetBoxes sb=bf.createBoxes(liste);
+		
+		//Création des avions
+		
+		
 		
 	}
 

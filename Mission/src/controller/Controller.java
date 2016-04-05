@@ -1,21 +1,23 @@
 package controller;
 
-import java.awt.HeadlessException;
 import java.util.ArrayList;
-import usefullFunctions.FillLayer;
 
 import model.Item;
 import model.SetBoxes;
+import model.SetPlanes;
+import usefullFunctions.FillLayer;
 
 public class Controller {
 
 	// Attributes for processing
 
 	// Attributes for box ranking
-	final private String priorityRule = "b"; // Ranking priority for a set of box
+	final private String priorityRule = "b"; // Ranking priority for a set of
+												// box
 	final private int sizeOfRankedReturn = 5; // Size of M1 or M2
-	final private int whichFrequencyFunction = 1; // Number of the frequency function {1,
-										// 2, 3}
+	final private int whichFrequencyFunction = 1; // Number of the frequency
+	// 2, 3}
+	// function {1,
 
 	// Algorithm Attributes
 	private SetBoxes currentBestFilling = new SetBoxes(); // L
@@ -42,7 +44,8 @@ public class Controller {
 			M2 = selectBestRank(boites);
 
 			for (Integer w : M2) {
-				// setBoxes K = fill_single_strip(height, boxes);
+
+				SetBoxes K = fill_single_strip(height, width, LayerDepth, boites, "width");
 				// fill_layer(width - w, height, LayerDepth,
 				// VolAlreadyPlacedBoxes + K.getVolume(), boites.exclude(K));
 			}
@@ -55,7 +58,6 @@ public class Controller {
 				// setBoxes K = fill_single_strip(height, boxes);
 				// fill_layer(width, height - h, LayerDepth,
 				// VolAlreadyPlacedBoxes + util.volumeOfBoxes(K),
-				// util.exclude(boites, K));
 			}
 
 		}
@@ -73,32 +75,56 @@ public class Controller {
 	 * @param depth
 	 * @param Volume
 	 */
-	public void chooseDepth(int depth, long Volume,SetBoxes sb) {
-		
-		ArrayList <Integer> depths = new ArrayList<Integer>();
-		
+	public void chooseDepth(int depth, long Volume, SetBoxes sb, SetPlanes sp) {
+
+		ArrayList<Integer> depths = new ArrayList<Integer>();
+
 		if (Volume > Vinit) {
 			Vinit = Volume;
-			for(int i=0;i<currentBestFilling.size();i++){
+			for (int i = 0; i < currentBestFilling.size(); i++) {
 				BoxInside.add(currentBestFilling.get(i));
-			}				
+			}
 		}
-		
+
 		for (int i = 0; i < sb.size(); i++) {
 			if (depth < sb.get(0).minEdge()) {
-				depths=selectBestRank(sb);
+				depths = selectBestRank(sb);
 			}
-			
-		for (int k =0;k<depths.size();k++){
-			sb.pairBoxes(depths.get(k));
-			currentBestFilling=fill_layer(W,H,depth,0,sb);
-			long U=currentBestFilling.getVolume();
-			chooseDepth(depth-depths.get(k),Volume+U,sb);
-		}
-		
+
+			for (int k = 0; k < depths.size(); k++) {
+				sb.pairBoxes(depths.get(k));
+				currentBestFilling = fill_layer(sp.get(0).getSpaces().get(0).getWidth(),
+						sp.get(0).getSpaces().get(0).getHeight(), depth, 0, sb);
+				long U = currentBestFilling.getVolume();
+				chooseDepth(depth - depths.get(k), Volume + U, sb, sp);
+			}
+
 		}
 
 	}
+
+	public SetBoxes fill_single_strip(int stripH, int stripW, int stripD, SetBoxes boxes, String contrainte) {
+
+		int capacity;
+		SetBoxes K = new SetBoxes();
+		ArrayList<Item> feasibleBoxes = new ArrayList<Item>();
+		ArrayList<Item> discardedBoxes = new ArrayList<Item>();
+		ArrayList<Integer> a = new ArrayList<Integer>();
+		ArrayList<Integer> c = new ArrayList<Integer>();
+		int compteur = 0;
+
+		if (contrainte.equals("width")) {
+			capacity = stripW;
+		} else if (contrainte.equals("height")) {
+			capacity = stripH;
+		} else{
+			return null;
+		}
+
+		for (Item box : boxes) {
+			for (int i = 0; i < 2; i++) {
+				if (box.getWidth() > stripW || box.getDepth() > stripD || box.getHeight() > box.getWidth()
+						|| box.getHeight() > box.getDepth()) {
 
 	public SetBoxes fill_single_strip(int stripH, int stripW, int stripD, SetBoxes boxes,int capacity, String contrainte){
 		  SetBoxes K = new SetBoxes();
@@ -126,55 +152,57 @@ public class Controller {
 				{
 					//feasibleBoxes.set(boxes.getSet().indexOf(box),box);
 					feasibleBoxes.add(box);
-					if (contrainte=="heigth"){a.add(box.getHeight());}
-					else if (contrainte=="width"){a.add(box.getHeight());}
-					c.add(box.getHeight()*box.getDepth()*box.getWidth());
+					if (contrainte == "heigth") {
+						a.add(box.getHeight());
+					} else if (contrainte == "width") {
+						a.add(box.getHeight());
+					}
+					c.add(box.getHeight() * box.getDepth() * box.getWidth());
 				}
-			if (compteur==2) {
-				//discardedBoxes.set(boxes.getSet().indexOf(box),box);
-				discardedBoxes.add(box);
+				if (compteur == 2) {
+					// discardedBoxes.set(boxes.getSet().indexOf(box),box);
+					discardedBoxes.add(box);
 				}
 			}
 		}
-		//Then solve a KP with capacity h/w
+		// Then solve a KP with capacity h/w
 		int[][] keep = new int[feasibleBoxes.size()][a.size()];
-		knapsack(capacity,feasibleBoxes.size(),a,c,keep);
-		
-		int KK=capacity;
-		for (int i=feasibleBoxes.size();i>=1;i--){
-			if (keep[i][KK]==1){
+		knapsack(capacity, feasibleBoxes.size(), a, c, keep);
+
+		int KK = capacity;
+		for (int i = feasibleBoxes.size(); i >= 1; i--) {
+			if (keep[i][KK] == 1) {
 				K.add(feasibleBoxes.get(i));
-				KK=KK-a.get(i);
+				KK = KK - a.get(i);
 			}
 		}
-		
-		return K;		
+
+		return K;
 	}
-	
-	public int knapsack(int capacity, int numberOfItems, ArrayList<Integer> weights, ArrayList<Integer> values, int[][] keep){
-		   int[][] m=new int[numberOfItems][weights.size()];
-		   keep=new int[numberOfItems][weights.size()];
-		for (int w=0;w<=capacity;w++){
-			m[0][w]=0;
+
+	private int knapsack(int capacity, int numberOfItems, ArrayList<Integer> weights, ArrayList<Integer> values,
+			int[][] keep) {
+		int[][] m = new int[numberOfItems][weights.size()];
+		keep = new int[numberOfItems][weights.size()];
+		for (int w = 0; w <= capacity; w++) {
+			m[0][w] = 0;
 		}
-		for (int i=1;i<=numberOfItems;i++){
-			for (int w=0;w<=capacity;w++){
-				if (weights.get(i)<=w && values.get(i)+m[i-1][w-weights.get(i)]>m[i-1][w]) {
-					m[i][w]=values.get(i)+m[i-1][w-weights.get(i)];
-					keep[i][w]=1;
-				}
-				else
-				{
-					m[i][w]=m[i-1][w];
-					keep[i][w]=0;
+		for (int i = 1; i <= numberOfItems; i++) {
+			for (int w = 0; w <= capacity; w++) {
+				if (weights.get(i) <= w && values.get(i) + m[i - 1][w - weights.get(i)] > m[i - 1][w]) {
+					m[i][w] = values.get(i) + m[i - 1][w - weights.get(i)];
+					keep[i][w] = 1;
+				} else {
+					m[i][w] = m[i - 1][w];
+					keep[i][w] = 0;
 				}
 			}
 		}
-		
+
 		return m[numberOfItems][capacity];
-			
+
 	}
-	
+
 	public ArrayList<Integer> selectBestRank(SetBoxes N) {
 
 		// CREATE FREQUENCY FUNCTION
