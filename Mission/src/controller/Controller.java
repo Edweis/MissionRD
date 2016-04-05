@@ -55,7 +55,6 @@ public class Controller {
 				// setBoxes K = fill_single_strip(height, boxes);
 				// fill_layer(width, height - h, LayerDepth,
 				// VolAlreadyPlacedBoxes + util.volumeOfBoxes(K),
-				// util.exclude(boites, K));
 			}
 
 		}
@@ -100,6 +99,77 @@ public class Controller {
 
 	}
 
+	public SetBoxes fill_single_strip(int stripH, int stripW, int stripD, SetBoxes boxes,int capacity, String contrainte){
+		  
+		  SetBoxes K = new SetBoxes();
+		  ArrayList<Item> feasibleBoxes = new ArrayList<Item>();
+		  ArrayList<Item> discardedBoxes = new ArrayList<Item>();
+		  ArrayList<Integer> a=new ArrayList<Integer>();
+		  ArrayList<Integer> c=new ArrayList<Integer>();
+		  int compteur=0;
+		  
+		  
+		for (Item box : boxes){
+			for (int i=0;i<2;i++){
+				if (box.getWidth()>stripW || box.getDepth()>stripD || box.getHeight()>box.getWidth() || box.getHeight()>box.getDepth()){  
+					
+					if (contrainte=="heigth"){box.switchDimension("wd");}
+					else if (contrainte=="width"){box.switchDimension("hd");}
+					compteur=compteur+1;
+				}
+				else
+				{
+					//feasibleBoxes.set(boxes.getSet().indexOf(box),box);
+					feasibleBoxes.add(box);
+					if (contrainte=="heigth"){a.add(box.getHeight());}
+					else if (contrainte=="width"){a.add(box.getHeight());}
+					c.add(box.getHeight()*box.getDepth()*box.getWidth());
+				}
+			if (compteur==2) {
+				//discardedBoxes.set(boxes.getSet().indexOf(box),box);
+				discardedBoxes.add(box);
+				}
+			}
+		}
+		//Then solve a KP with capacity h/w
+		int[][] keep = new int[feasibleBoxes.size()][a.size()];
+		knapsack(capacity,feasibleBoxes.size(),a,c,keep);
+		
+		int KK=capacity;
+		for (int i=feasibleBoxes.size();i>=1;i--){
+			if (keep[i][KK]==1){
+				K.add(feasibleBoxes.get(i));
+				KK=KK-a.get(i);
+			}
+		}
+		
+		return K;		
+	}
+	
+	public int knapsack(int capacity, int numberOfItems, ArrayList<Integer> weights, ArrayList<Integer> values, int[][] keep){
+		   int[][] m=new int[numberOfItems][weights.size()];
+		   keep=new int[numberOfItems][weights.size()];
+		for (int w=0;w<=capacity;w++){
+			m[0][w]=0;
+		}
+		for (int i=1;i<=numberOfItems;i++){
+			for (int w=0;w<=capacity;w++){
+				if (weights.get(i)<=w && values.get(i)+m[i-1][w-weights.get(i)]>m[i-1][w]) {
+					m[i][w]=values.get(i)+m[i-1][w-weights.get(i)];
+					keep[i][w]=1;
+				}
+				else
+				{
+					m[i][w]=m[i-1][w];
+					keep[i][w]=0;
+				}
+			}
+		}
+		
+		return m[numberOfItems][capacity];
+			
+	}
+	
 	public ArrayList<Integer> selectBestRank(SetBoxes N) {
 
 		// CREATE FREQUENCY FUNCTION
