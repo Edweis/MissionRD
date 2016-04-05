@@ -13,10 +13,8 @@ import vue.Displayer;
 public class Main {
 
 	public static void main(String[] args) {
-System.out.print("ee");
-		//PierreTests();
-	}
 
+	}
 	private static void FrancoisTests(){
 		Displayer d = new Displayer();
 		d.start(new Stage());
