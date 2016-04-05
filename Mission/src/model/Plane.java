@@ -27,7 +27,7 @@ public class Plane {
 		return name;
 	}
 
-	public ArrayList<Item> getSpaces(int index) {
+	public ArrayList<Item> getSpaces() {
 		return spaces;
 	}
 
