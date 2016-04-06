@@ -189,7 +189,7 @@ public class Controller {
 		for (int i = 1; i <= numberOfItems; i++) {
 			for (int w = 0; w <= capacity; w++) {
 				if (weights.get(i-1) <= w && values.get(i-1) + m[i - 1][w - weights.get(i-1)] > m[i - 1][w]) {
-					m[i][w] = values.get(i-1) + m[i - 1][w - weights.get(i-1)];
+					m[i][w] = Math.max(values.get(i-1) + m[i - 1][w - weights.get(i-1)], m[i-1][w]);
 					keep[i][w] = 1;
 				} else {
 					m[i][w] = m[i - 1][w];
