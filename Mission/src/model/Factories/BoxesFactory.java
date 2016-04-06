@@ -119,7 +119,7 @@ public class BoxesFactory {
 
 		// Choose randomly boxes until the volume desired is reached
 		System.out.println("\n*************Generate Boxes***************");
-		int volume = 0;
+		long volume = 0;
 		int i;
 		while (volume * ratio < container.getVolume()) {
 			i = (int) (Math.random() * nbDifferentBoxes);
