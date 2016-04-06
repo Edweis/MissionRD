@@ -1,7 +1,2 @@
-/excel/
-/library/
 /application/
-/controller/
-/model/
-/usefullFunctions/
-/vue/
+/.gitignore
