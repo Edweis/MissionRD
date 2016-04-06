@@ -157,7 +157,7 @@ public class Controller {
 					if (contrainte == "heigth") {
 						a.add(box.getHeight());
 					} else if (contrainte == "width") {
-						a.add(box.getHeight());
+						a.add(box.getWidth());
 					}
 					c.add(box.getHeight() * box.getDepth() * box.getWidth());
 				}
