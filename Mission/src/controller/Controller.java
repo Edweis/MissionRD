@@ -42,7 +42,7 @@ public class Controller {
 			/** 
 			 *  PACK HORIZONTAL STRIP
 			 */
-			boites.rotateBoxesMaxWidth();
+			boites.rotateBoxesMinWidth();
 			M2 = selectBestRank(boites);
 
 			for (Integer w : M2) {
@@ -55,7 +55,7 @@ public class Controller {
 			/** 
 			 *  PACK VERTICAL STRIP
 			 */
-			boites.rotateBoxesMaxHeight();
+			boites.rotateBoxesMinHeight();
 			M2 = selectBestRank(boites);
 
 			for (Integer h : M2) {

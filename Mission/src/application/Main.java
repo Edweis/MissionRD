@@ -14,23 +14,35 @@ import vue.Displayer;
 public class Main {
 
 	public static void main(String[] args) {
-		CharlieTests(); 
+		FrancoisTests();
+		//CharlieTests(); 
 		//PierreTests();
 	}
+	
 	private static void FrancoisTests(){
-		Displayer d = new Displayer();
-		d.start(new Stage());
+		Item i = new Item(100, 70, 30);
+		Item j = new Item(150, 880, 900);
+		
+		SetBoxes s = new SetBoxes();
+		s.add(i);
+		s.add(j);
+		
+		s.rotateBoxesMaxDepth(200);
+		System.out.println(s);
+		
+		//Displayer d = new Displayer();
+		//d.start(new Stage());
 	}
 
 	private static void PierreTests(){
 		
-		//Création des boîtes
+		//Crï¿½ation des boï¿½tes
 		ReadExcel re= new ReadExcel();
 		ArrayList<ObjetExcel> liste=re.read();
 		BoxesFactory bf=new BoxesFactory();
 		SetBoxes sb=bf.createBoxes(liste);
 		
-		//Création des avions
+		//Crï¿½ation des avions
 		
 		
 		
