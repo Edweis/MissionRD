@@ -122,7 +122,7 @@ public class Controller {
 		ArrayList<Integer> a = new ArrayList<Integer>();
 		ArrayList<Integer> c = new ArrayList<Integer>();
 		int compteur = 0;
-		int box1 = 0, strip1 = 0, box2 = 0, strip2 = 0;
+		int box2 = 0, strip2 = 0;
 
 		if (contrainte == "heigth") {
 			capacity = stripH;
