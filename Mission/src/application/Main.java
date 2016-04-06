@@ -39,12 +39,12 @@ public class Main {
 	private static void CharlieTests(){
 	Item container=new Item(2000,1800,3000);
 	
-	SetBoxes boites = BoxesFactory.generateBoxes(container, 20, 0.9, 120, 250);
+	SetBoxes boites = BoxesFactory.generateBoxes(container, 20, 0.9, 580, 650);
 	
 	BoxesFactory.exportBoxes(boites, "fichier.txt");
-	//Controller fdp = new Controller();
-	//fdp.fill_single_strip(, stripW, stripD, boites, "height");
-	
+	Controller fdp = new Controller();
+	SetBoxes boitesfin=fdp.fill_single_strip(2000, 650, 650, boites, "height");
+	BoxesFactory.exportBoxes(boitesfin, "fin.txt");
 }
 
 }

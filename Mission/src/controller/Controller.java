@@ -124,13 +124,14 @@ public class Controller {
 		int compteur = 0;
 		int box2 = 0, strip2 = 0;
 
-		if (contrainte == "heigth") {
+		if (contrainte == "height") {
 			capacity = stripH;
 		} else if (contrainte == "width") {
 			capacity = stripW;
 		}
 
 		for (Item box : boxes) {
+			compteur=0;
 			if (contrainte == "height") {
 				box2=box.getWidth();
 				strip2=stripW;
@@ -141,7 +142,7 @@ public class Controller {
 			for (int i = 0; i < 2; i++) {
 				if (box.getDepth() > stripD || box2 > strip2) {
 
-					if (contrainte == "heigth") {
+					if (contrainte == "height") {
 						box.switchDimension("wd");
 					} else if (contrainte == "width") {
 						box.switchDimension("hd");
@@ -150,7 +151,7 @@ public class Controller {
 				} else {
 					
 					feasibleBoxes.add(box);
-					if (contrainte == "heigth") {
+					if (contrainte == "height") {
 						a.add(box.getHeight());
 					} else if (contrainte == "width") {
 						a.add(box.getWidth());
@@ -158,38 +159,37 @@ public class Controller {
 					c.add(box.getHeight() * box.getDepth() * box.getWidth());
 					break;
 				}
-				if (compteur == 2) {
-					
-					discardedBoxes.add(box);
-				}
+			}
+			if (compteur == 2) {
+				
+				discardedBoxes.add(box);
 			}
 		}
 		// Then solve a KP with capacity h/w
-		int[][] keep = new int[feasibleBoxes.size()][a.size()];
-		knapsack(capacity, feasibleBoxes.size(), a, c, keep);
+		int[][] keep = new int[feasibleBoxes.size()+1][capacity+1];
+		keep=knapsack(capacity, feasibleBoxes.size(), a, c);
 
 		int KK = capacity;
 		for (int i = feasibleBoxes.size(); i >= 1; i--) {
 			if (keep[i][KK] == 1) {
 				K.add(feasibleBoxes.get(i));
-				KK = KK - a.get(i);
+				KK = KK - a.get(i-1);
 			}
 		}
 
 		return K;
 	}
 
-	private int knapsack(int capacity, int numberOfItems, ArrayList<Integer> weights, ArrayList<Integer> values,
-			int[][] keep) {
-		int[][] m = new int[numberOfItems][weights.size()];
-		keep = new int[numberOfItems][weights.size()];
+	private int[][] knapsack(int capacity, int numberOfItems, ArrayList<Integer> weights, ArrayList<Integer> values) {
+		int[][] m = new int[numberOfItems+1][capacity+1];
+		int[][]keep = new int[numberOfItems+1][capacity+1];
 		for (int w = 0; w <= capacity; w++) {
 			m[0][w] = 0;
 		}
 		for (int i = 1; i <= numberOfItems; i++) {
 			for (int w = 0; w <= capacity; w++) {
-				if (weights.get(i) <= w && values.get(i) + m[i - 1][w - weights.get(i)] > m[i - 1][w]) {
-					m[i][w] = values.get(i) + m[i - 1][w - weights.get(i)];
+				if (weights.get(i-1) <= w && values.get(i-1) + m[i - 1][w - weights.get(i-1)] > m[i - 1][w]) {
+					m[i][w] = values.get(i-1) + m[i - 1][w - weights.get(i-1)];
 					keep[i][w] = 1;
 				} else {
 					m[i][w] = m[i - 1][w];
@@ -198,7 +198,7 @@ public class Controller {
 			}
 		}
 
-		return m[numberOfItems][capacity];
+		return keep;
 
 	}
 
