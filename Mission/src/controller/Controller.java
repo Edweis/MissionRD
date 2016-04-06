@@ -45,7 +45,7 @@ public class Controller {
 			boites.rotateBoxesMinWidth();
 			M2 = selectBestRank(boites);
 
-			for (Integer w : M2) {
+			for (Integer w : M2) {	
 
 				SetBoxes K = fill_single_strip(height, width, LayerDepth, boites, "height");
 				boites.exclude(K);
