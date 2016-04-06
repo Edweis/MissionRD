@@ -132,18 +132,14 @@ public class Controller {
 
 		for (Item box : boxes) {
 			if (contrainte == "height") {
-				box1 = box.getWidth();
-				strip1 = stripW;
-				box2 = box.getDepth();
-				strip2 = stripD;
+				box2=box.getWidth();
+				strip2=stripW;
 			} else if (contrainte == "width") {
-				box1 = box.getDepth();
-				strip1 = stripD;
 				box2 = box.getHeight();
 				strip2 = stripH;
 			}
 			for (int i = 0; i < 2; i++) {
-				if (box1 > strip1 || box2 > strip2) {
+				if (box.getDepth() > stripD || box2 > strip2) {
 
 					if (contrainte == "heigth") {
 						box.switchDimension("wd");
@@ -152,7 +148,7 @@ public class Controller {
 					}
 					compteur = compteur + 1;
 				} else {
-					// feasibleBoxes.set(boxes.getSet().indexOf(box),box);
+					
 					feasibleBoxes.add(box);
 					if (contrainte == "heigth") {
 						a.add(box.getHeight());
@@ -160,9 +156,10 @@ public class Controller {
 						a.add(box.getWidth());
 					}
 					c.add(box.getHeight() * box.getDepth() * box.getWidth());
+					break;
 				}
 				if (compteur == 2) {
-					// discardedBoxes.set(boxes.getSet().indexOf(box),box);
+					
 					discardedBoxes.add(box);
 				}
 			}
