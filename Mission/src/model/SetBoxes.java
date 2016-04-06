@@ -35,13 +35,13 @@ public class SetBoxes implements Iterable<Item> {
 	/**
 	 * Rotate boxes of N in order to maximize their width.
 	 */
-	public void rotateBoxesMaxWidth() {
-		int max;
+	public void rotateBoxesMinWidth() {
+		int min;
 		for (Item i : set) {
-			max = i.maxEdge();
-			if (i.getHeight() == max) {
-				i.switchDimension("wh");
-			} else if (i.getDepth() == max) {
+			min = i.minEdge();
+			if (i.getHeight() == min) {
+				i.switchDimension("hw");
+			} else if (i.getDepth() == min) {
 				i.switchDimension("dw");
 			}
 		}
@@ -50,13 +50,13 @@ public class SetBoxes implements Iterable<Item> {
 	/**
 	 * Rotate boxes of N in order to maximize their height.
 	 */
-	public void rotateBoxesMaxHeight() {
-		int max;
+	public void rotateBoxesMinHeight() {
+		int min;
 		for (Item i : set) {
-			max = i.maxEdge();
-			if (i.getWidth() == max) {
+			min = i.minEdge();
+			if (i.getWidth() == min) {
 				i.switchDimension("wh");
-			} else if (i.getDepth() == max) {
+			} else if (i.getDepth() == min) {
 				i.switchDimension("dh");
 			}
 		}
