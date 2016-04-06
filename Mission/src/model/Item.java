@@ -113,46 +113,12 @@ public class Item {
 		return "nature=" + nature +" * numero="+numero+ " * h=" + height + " * w=" + width + " * d=" + depth+" * vol="+volume+" * poids="+poids																																																																																																																																																																																																																																																																																														;
 	}
 
-	/**
-	 * Rotate a box such that its depth dj is largest possible satisfying dj<=d.
-	 * Calculate the ratio a=dj/d.
-	 * 
-	 * @param d
-	 *            = given depth
-	 * @param i
-	 *            = given Item
-	 * @return a = dj/d
-	 */
-	public double rotateBoxMaxDepth(int d, Item i) {
 
-		int max = i.maxEdge();
-		int dj = 0;
-		String rot = null;
-		double a = 0;
-
-		// Search the largest dimension of a box less or equal than d and rotate
-		// the box
-		if (i.depth <= d) {
-			dj = i.depth;
-		}
-		if (i.height <= d && dj < i.height) {
-			dj = i.height;
-			rot = "hd";
-		}
-		if (i.width <= d && dj < i.width) {
-			dj = i.width;
-			rot = "wd";
-		}
-
-		System.out.println(rot);
-		i.switchDimension(rot);
-
-		// Calculates the ratio dj/d
-		a = (double) (i.depth / d);
-		return a;
-
-	}
-
+	
+	
+	
+	
+	
 	// Getters and setters
 
 	public double getVolume() {
