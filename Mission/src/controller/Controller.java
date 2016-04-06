@@ -103,7 +103,7 @@ public class Controller {
 				for(int j=0;j<currentBestFilling.size();j++){
 					for(int l=0;l<sb.size();l++){
 						if(currentBestFilling.get(j)==sb.get(l)){
-							sb.remove();
+							sb.remove(sb.get(l));
 						}
 					}
 				}
