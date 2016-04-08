@@ -144,8 +144,10 @@ public class Controller {
 
 					if (contrainte == "height") {
 						box.switchDimension("wd");
+						box2=box.getWidth();
 					} else if (contrainte == "width") {
 						box.switchDimension("hd");
+						box2 = box.getHeight();
 					}
 					compteur = compteur + 1;
 				} else {
