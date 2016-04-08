@@ -270,10 +270,8 @@ public class SetBoxes implements Iterable<Item> {
 	 * @return = shortest length
 	 */
 	public int largestEdge() {
-		int res;
-		if (set.isEmpty()) {
-			res = -1;
-		} else {
+		int res = -1;
+		if (!set.isEmpty()) {
 			res = set.get(1).getDepth();
 			for (Item i : set) {
 				if (i.getHeight() < res) {
@@ -298,7 +296,8 @@ public class SetBoxes implements Iterable<Item> {
 	 */
 	public int shortestEdge() {
 		int res = -1;
-		if (set.isEmpty()) {
+		
+		if (!set.isEmpty()) {
 			for (Item i : set) {
 				if (i.getHeight() > res) {
 					res = i.getHeight();

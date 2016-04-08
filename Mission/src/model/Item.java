@@ -110,7 +110,8 @@ public class Item {
 	}
 
 	public String toString() {
-		return "nature=" + nature +" * numero="+numero+ " * h=" + height + " * w=" + width + " * d=" + depth+" * vol="+volume+" * poids="+poids																																																																																																																																																																																																																																																																																														;
+		//return "nature=" + nature +" * numero="+numero+ " * h=" + height + " * w=" + width + " * d=" + depth+" * vol="+volume+" * poids="+poids																																																																																																																																																																																																																																																																																														;
+		return "h=" + height + " * w=" + width + " * d="+depth;
 	}
 
 

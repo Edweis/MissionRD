@@ -2,6 +2,7 @@ package controller;
 
 import java.util.ArrayList;
 
+import application.Main;
 import model.Item;
 import model.SetBoxes;
 import model.SetPlanes;
@@ -14,7 +15,7 @@ public class Controller {
 	// Attributes for box ranking
 	final private String priorityRule = "b"; // Ranking priority for a set of
 												// box
-	final private int sizeOfRankedReturn = 5; // Size of M1 or M2
+	final private int sizeOfRankedReturn = 3; // Size of M1 or M2
 	final private int whichFrequencyFunction = 1; // Number of the frequency
 	// 2, 3}
 	// function {1,
@@ -24,8 +25,9 @@ public class Controller {
 	private long bestFilling_ObjectiveValue; // U*
 
 	// fill_layer(w/, h/, d', U, N'')
-	public SetBoxes fill_layer(int width, int height, int LayerDepth, long VolAlreadyPlacedBoxes, SetBoxes boites) {
-
+	public SetBoxes fill_layer(int height, int width, int LayerDepth, long VolAlreadyPlacedBoxes, SetBoxes boites) {
+		Main.niveau++;
+		System.out.println("fill_layer est au niveau : " + Main.niveau);
 		// We update the volume of placed boxes
 		if (VolAlreadyPlacedBoxes > bestFilling_ObjectiveValue) {
 			currentBestFilling = boites;
@@ -33,27 +35,31 @@ public class Controller {
 		}
 
 		// If it remains boxes witch can fit in the space, we continue.
-		int l = boites.shortestEdge(); // l = min{w, h, d)
-		if (width < l || height < l) {
+		int ll = boites.shortestEdge(); // l = min{w, h, d)
+		if (width < ll || height < ll) {
 			return boites;
 		} else {
 			ArrayList<Integer> M2;
 
-			/** 
-			 *  PACK HORIZONTAL STRIP
+			/**
+			 * PACK HORIZONTAL STRIP
 			 */
 			boites.rotateBoxesMinWidth();
+
+			System.out.print(boites);
 			M2 = selectBestRank(boites);
 
-			for (Integer w : M2) {	
-
+			for (Integer w : M2) {
+				System.out.println("\t ** " + boites.size());
 				SetBoxes K = fill_single_strip(height, width, LayerDepth, boites, "height");
 				boites.exclude(K);
+					System.out.println(K);
 				fill_layer(width - w, height, LayerDepth, VolAlreadyPlacedBoxes + K.getVolume(), boites);
+				Main.niveau--;
 			}
 
-			/** 
-			 *  PACK VERTICAL STRIP
+			/**
+			 * PACK VERTICAL STRIP
 			 */
 			boites.rotateBoxesMinHeight();
 			M2 = selectBestRank(boites);
@@ -100,9 +106,9 @@ public class Controller {
 				currentBestFilling = fill_layer(sp.get(0).getSpaces().get(0).getWidth(),
 						sp.get(0).getSpaces().get(0).getHeight(), depth, 0, sb);
 				long U = currentBestFilling.getVolume();
-				for(int j=0;j<currentBestFilling.size();j++){
-					for(int l=0;l<sb.size();l++){
-						if(currentBestFilling.get(j)==sb.get(l)){
+				for (int j = 0; j < currentBestFilling.size(); j++) {
+					for (int l = 0; l < sb.size(); l++) {
+						if (currentBestFilling.get(j) == sb.get(l)) {
 							sb.remove(sb.get(l));
 						}
 					}
@@ -131,10 +137,10 @@ public class Controller {
 		}
 
 		for (Item box : boxes) {
-			compteur=0;
+			compteur = 0;
 			if (contrainte == "height") {
-				box2=box.getWidth();
-				strip2=stripW;
+				box2 = box.getWidth();
+				strip2 = stripW;
 			} else if (contrainte == "width") {
 				box2 = box.getHeight();
 				strip2 = stripH;
@@ -149,7 +155,7 @@ public class Controller {
 					}
 					compteur = compteur + 1;
 				} else {
-					
+
 					feasibleBoxes.add(box);
 					if (contrainte == "height") {
 						a.add(box.getHeight());
@@ -161,19 +167,19 @@ public class Controller {
 				}
 			}
 			if (compteur == 2) {
-				
+
 				discardedBoxes.add(box);
 			}
 		}
 		// Then solve a KP with capacity h/w
-		int[][] keep = new int[feasibleBoxes.size()+1][capacity+1];
-		keep=knapsack(capacity, feasibleBoxes.size(), a, c);
+		int[][] keep = new int[feasibleBoxes.size() + 1][capacity + 1];
+		keep = knapsack(capacity, feasibleBoxes.size(), a, c);
 
 		int KK = capacity;
 		for (int i = feasibleBoxes.size(); i >= 1; i--) {
 			if (keep[i][KK] == 1) {
 				K.add(feasibleBoxes.get(i));
-				KK = KK - a.get(i-1);
+				KK = KK - a.get(i - 1);
 			}
 		}
 
@@ -181,15 +187,15 @@ public class Controller {
 	}
 
 	private int[][] knapsack(int capacity, int numberOfItems, ArrayList<Integer> weights, ArrayList<Integer> values) {
-		int[][] m = new int[numberOfItems+1][capacity+1];
-		int[][]keep = new int[numberOfItems+1][capacity+1];
+		int[][] m = new int[numberOfItems + 1][capacity + 1];
+		int[][] keep = new int[numberOfItems + 1][capacity + 1];
 		for (int w = 0; w <= capacity; w++) {
 			m[0][w] = 0;
 		}
 		for (int i = 1; i <= numberOfItems; i++) {
 			for (int w = 0; w <= capacity; w++) {
-				if (weights.get(i-1) <= w && values.get(i-1) + m[i - 1][w - weights.get(i-1)] > m[i - 1][w]) {
-					m[i][w] = Math.max(values.get(i-1) + m[i - 1][w - weights.get(i-1)], m[i-1][w]);
+				if (weights.get(i - 1) <= w && values.get(i - 1) + m[i - 1][w - weights.get(i - 1)] > m[i - 1][w]) {
+					m[i][w] = Math.max(values.get(i - 1) + m[i - 1][w - weights.get(i - 1)], m[i - 1][w]);
 					keep[i][w] = 1;
 				} else {
 					m[i][w] = m[i - 1][w];
