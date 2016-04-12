@@ -99,7 +99,7 @@ public class FillLayer {
 			int pos = 0;
 			// Until the function contains only zeros or we have picked enough
 			// value
-			while (max != 0 || indexOfSize.size() == sizeOfRankedReturn) {
+			while (max != 0 && indexOfSize.size() != sizeOfRankedReturn) {
 				max = 0;
 				pos = 0;
 				

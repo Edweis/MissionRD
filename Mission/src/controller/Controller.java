@@ -27,7 +27,11 @@ public class Controller {
 	// fill_layer(w/, h/, d', U, N'')
 	public SetBoxes fill_layer(int height, int width, int LayerDepth, long VolAlreadyPlacedBoxes, SetBoxes boites) {
 		Main.niveau++;
-		System.out.println("fill_layer est au niveau : " + Main.niveau);
+		//System.out.println("fill_layer est au niveau : " + Main.niveau);
+		System.out.println("height of the layer : " + height);
+		System.out.println("width of the layer : " + width);
+		
+		
 		// We update the volume of placed boxes
 		if (VolAlreadyPlacedBoxes > bestFilling_ObjectiveValue) {
 			currentBestFilling = boites;
@@ -46,7 +50,6 @@ public class Controller {
 			 */
 			boites.rotateBoxesMinWidth();
 
-			System.out.print(boites);
 			M2 = selectBestRank(boites);
 
 			for (Integer w : M2) {
