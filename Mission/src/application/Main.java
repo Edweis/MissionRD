@@ -21,9 +21,8 @@ public class Main {
 
 	private static void FrancoisTests() {
 		Item container = new Item(600, 300, 1000);
-		// SetBoxes myBoxes = BoxesFactory.generateBoxes(container, 5, 0.9, 100,
-		// 200);
-		// BoxesFactory.exportBoxes(myBoxes, "mesboites.txt");
+//		SetBoxes myBoxes = BoxesFactory.generateBoxes(container, 3, 0.9, 200, 300);
+//		BoxesFactory.exportBoxes(myBoxes, "mesboites.txt");
 		SetBoxes myBoxes = BoxesFactory.importBoxes("mesboites.txt");
 
 		Controller c = new Controller();
@@ -31,7 +30,7 @@ public class Main {
 		// System.out.println(myBoxes);
 		// System.out.println(myBoxes.largestEdge());
 
-		c.fill_layer(600, 400, 180, 0, myBoxes);
+		c.fill_layer(600, 300, 280, 0, myBoxes);
 
 		// Displayer d = new Displayer();
 		// d.start(new Stage());

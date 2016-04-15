@@ -16,7 +16,7 @@ public class Controller {
 	final private String priorityRule = "b"; // Ranking priority for a set of
 												// box
 	final private int sizeOfRankedReturn = 3; // Size of M1 or M2
-	final private int whichFrequencyFunction = 1; // Number of the frequency
+	final private int whichFrequencyFunction = 2; // Number of the frequency
 	// 2, 3}
 	// function {1,
 
@@ -26,10 +26,6 @@ public class Controller {
 
 	// fill_layer(w/, h/, d', U, N'')
 	public SetBoxes fill_layer(int height, int width, int LayerDepth, long VolAlreadyPlacedBoxes, SetBoxes boites) {
-		Main.niveau++;
-		//System.out.println("fill_layer est au niveau : " + Main.niveau);
-		System.out.println("height of the layer : " + height);
-		System.out.println("width of the layer : " + width);
 		
 		
 		// We update the volume of placed boxes
@@ -53,12 +49,11 @@ public class Controller {
 			M2 = selectBestRank(boites);
 
 			for (Integer w : M2) {
-				System.out.println("\t ** " + boites.size());
-				SetBoxes K = fill_single_strip(height, width, LayerDepth, boites, "height");
+					System.out.println("\t ** " + boites.size());
+				SetBoxes K = fill_single_strip(height, w, LayerDepth, boites, "height");
 				boites.exclude(K);
 					System.out.println(K);
-				fill_layer(width - w, height, LayerDepth, VolAlreadyPlacedBoxes + K.getVolume(), boites);
-				Main.niveau--;
+				fill_layer(height, width - w, LayerDepth, VolAlreadyPlacedBoxes + K.getVolume(), boites);
 			}
 
 			/**
@@ -68,9 +63,11 @@ public class Controller {
 			M2 = selectBestRank(boites);
 
 			for (Integer h : M2) {
-				SetBoxes K = fill_single_strip(height, width, LayerDepth, boites, "width");
+					System.out.println("\t ** " + boites.size());
+				SetBoxes K = fill_single_strip(h, width, LayerDepth, boites, "width");
 				boites.exclude(K);
-				fill_layer(width, height - h, LayerDepth, VolAlreadyPlacedBoxes + K.getVolume(), boites);
+					System.out.println(K);
+				fill_layer(height - h, width,  LayerDepth, VolAlreadyPlacedBoxes + K.getVolume(), boites);
 			}
 
 		}
@@ -153,7 +150,7 @@ public class Controller {
 
 					if (contrainte == "height") {
 						box.switchDimension("wd");
-						box2=box.getWidth();
+						box2 = box.getWidth();
 					} else if (contrainte == "width") {
 						box.switchDimension("hd");
 						box2 = box.getHeight();

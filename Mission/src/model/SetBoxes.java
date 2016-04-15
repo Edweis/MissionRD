@@ -269,22 +269,8 @@ public class SetBoxes implements Iterable<Item> {
 	 *            = set of boxes
 	 * @return = shortest length
 	 */
-	public int largestEdge() {
-		int res = -1;
-		if (!set.isEmpty()) {
-			res = set.get(1).getDepth();
-			for (Item i : set) {
-				if (i.getHeight() < res) {
-					res = i.getHeight();
-				} else if (i.getWidth() < res) {
-					res = i.getWidth();
-				} else if (i.getDepth() < res) {
-					res = i.getDepth();
-				}
-			}
-		}
-
-		return res;
+	public int shortestEdge() {
+		return sizesOfItems.get(0)[0];
 	}
 
 	/**
@@ -294,22 +280,9 @@ public class SetBoxes implements Iterable<Item> {
 	 *            = set of boxes
 	 * @return = shortest length
 	 */
-	public int shortestEdge() {
-		int res = -1;
-		
-		if (!set.isEmpty()) {
-			for (Item i : set) {
-				if (i.getHeight() > res) {
-					res = i.getHeight();
-				} else if (i.getWidth() > res) {
-					res = i.getWidth();
-				} else if (i.getDepth() > res) {
-					res = i.getDepth();
-				}
-			}
+	public int longestEdge() {
+		return sizesOfItems.get(sizesOfItems.size()-1)[0];
 		}
-		return res;
-	}
 
 	public Iterator<Item> iterator() {
 		return set.iterator();

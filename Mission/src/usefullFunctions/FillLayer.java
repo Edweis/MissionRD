@@ -18,7 +18,7 @@ public class FillLayer {
 
 		// "Alpha" and "Beta" initialization
 		int alpha = N.shortestEdge();
-		int beta = N.largestEdge();
+		int beta = N.longestEdge();
 
 		// empty frequency function
 		ArrayList<Integer> f = new ArrayList<Integer>();
@@ -97,21 +97,26 @@ public class FillLayer {
 		case "b":
 			int max = -1;
 			int pos = 0;
-			// Until the function contains only zeros or we have picked enough
-			// value
-			while (max != 0 && indexOfSize.size() != sizeOfRankedReturn) {
+			int sum = 0; //number of non zero values in freqFunct
+			for(int i : freqFunct){
+				sum+=(i==0?0:1);
+			}
+			// Until we have enought values or we have not enought values in freqFunct
+			while (sum != 0 && indexOfSize.size() <= sizeOfRankedReturn) {
 				max = 0;
 				pos = 0;
 				
 				// We pick the highest value of the frequency function
-				for (int i = 0; i < freqFunct.size(); i++) {
+				// We start from the end of the array because the array is sorted
+				for (int i = freqFunct.size() -1 ; i > 0 ; i--) {
 					if (freqFunct.get(i) > max) {
 						max = freqFunct.get(i);
 						pos = i;
-						freqFunct.set(i, 0);// And we set it at 0
 					}
 				}
+				freqFunct.set(pos, 0);// And we set it at 0
 				indexOfSize.add(pos);
+				sum--;
 			}
 
 			break;
