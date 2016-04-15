@@ -107,8 +107,8 @@ public class SetBoxes implements Iterable<Item> {
 	 */
 	public void pairBoxes(int depth) {
 		CalculPairBoxes cpb;
-		
-		Item it=rotateBoxesMaxDepth(depth);
+
+		Item it = rotateBoxesMaxDepth(depth);
 		cpb = rotatePairBoxes(depth, it);
 
 		if (cpb.getPos() == "up") {
@@ -281,8 +281,8 @@ public class SetBoxes implements Iterable<Item> {
 	 * @return = shortest length
 	 */
 	public int longestEdge() {
-		return sizesOfItems.get(sizesOfItems.size()-1)[0];
-		}
+		return sizesOfItems.get(sizesOfItems.size() - 1)[0];
+	}
 
 	public Iterator<Item> iterator() {
 		return set.iterator();
@@ -300,13 +300,14 @@ public class SetBoxes implements Iterable<Item> {
 		updateAdding(element);
 
 	}
+
 	/**
 	 * 
 	 * @param element
 	 */
-	public void remove(Item element){
+	public void remove(Item element) {
 		set.remove(element);
-		volume -=element.getVolume();
+		volume -= element.getVolume();
 		updateRemoving(element);
 	}
 
@@ -529,6 +530,16 @@ public class SetBoxes implements Iterable<Item> {
 		for (Item p : set) {
 			s = s + "\n" + p.toString();
 		}
+
+		if (set.isEmpty()) {
+			s = s + "\n nothing";
+		}
 		return s;
+	}
+
+	public void add(SetBoxes OtherSetBoxes) {
+		for (Item i : OtherSetBoxes) {
+			set.add(i);
+		}
 	}
 }

@@ -2,9 +2,9 @@ package controller;
 
 import java.util.ArrayList;
 
-import application.Main;
 import model.Item;
 import model.SetBoxes;
+import model.SetBoxesOrganized;
 import model.SetPlanes;
 import usefullFunctions.FillLayer;
 
@@ -12,32 +12,37 @@ public class Controller {
 
 	// Attributes for processing
 
+	
 	// Attributes for box ranking
-	final private String priorityRule = "b"; // Ranking priority for a set of
-												// box
+	final private String priorityRule = "b"; // Ranking priority for a set of boxes
 	final private int sizeOfRankedReturn = 3; // Size of M1 or M2
-	final private int whichFrequencyFunction = 2; // Number of the frequency
-	// 2, 3}
-	// function {1,
+	final private int whichFrequencyFunction = 2; //Number of the frequency function {1, 2, 3}
 
+	
 	// Algorithm Attributes
 	private SetBoxes currentBestFilling = new SetBoxes(); // L
 	private long bestFilling_ObjectiveValue; // U*
 
+	
 	// fill_layer(w/, h/, d', U, N'')
 	public SetBoxes fill_layer(int height, int width, int LayerDepth, long VolAlreadyPlacedBoxes, SetBoxes boites) {
 		
+		SetBoxes res = new SetBoxes();
 		
 		// We update the volume of placed boxes
 		if (VolAlreadyPlacedBoxes > bestFilling_ObjectiveValue) {
 			currentBestFilling = boites;
 			bestFilling_ObjectiveValue = VolAlreadyPlacedBoxes;
+			System.out.println("*****\n NOUVEL AJOUT !");
+			System.out.println("  with " + boites.size() +" boxes");
+			System.out.println("  and a total volume of " + VolAlreadyPlacedBoxes);
+			System.out.println("*****");
 		}
 
 		// If it remains boxes witch can fit in the space, we continue.
 		int ll = boites.shortestEdge(); // l = min{w, h, d)
 		if (width < ll || height < ll) {
-			return boites;
+			return res;
 		} else {
 			ArrayList<Integer> M2;
 
@@ -49,11 +54,16 @@ public class Controller {
 			M2 = selectBestRank(boites);
 
 			for (Integer w : M2) {
-					System.out.println("\t ** " + boites.size());
+					System.out.println("**Horiontal** bounds = " + w + "  #boxes = " + boites.size());
 				SetBoxes K = fill_single_strip(height, w, LayerDepth, boites, "height");
-				boites.exclude(K);
-					System.out.println(K);
-				fill_layer(height, width - w, LayerDepth, VolAlreadyPlacedBoxes + K.getVolume(), boites);
+					res.add(K);
+					boites.exclude(K);
+					System.out.println("\t K : " + K);
+				
+				SetBoxes J = fill_layer(height, width - w, LayerDepth, VolAlreadyPlacedBoxes + K.getVolume(), boites);
+					res.add(J);
+					boites.exclude(J);
+					System.out.println("\t J : " + J);
 			}
 
 			/**
@@ -63,16 +73,21 @@ public class Controller {
 			M2 = selectBestRank(boites);
 
 			for (Integer h : M2) {
-					System.out.println("\t ** " + boites.size());
+					System.out.println("**Vertical  bounds = "+h+"  #boxes = " + boites.size());
 				SetBoxes K = fill_single_strip(h, width, LayerDepth, boites, "width");
-				boites.exclude(K);
-					System.out.println(K);
-				fill_layer(height - h, width,  LayerDepth, VolAlreadyPlacedBoxes + K.getVolume(), boites);
+					res.add(K);
+					boites.exclude(K);
+					System.out.println("\t K : " + K);
+				
+				SetBoxes J = fill_layer(height - h, width, LayerDepth, VolAlreadyPlacedBoxes + K.getVolume(), boites);
+					res.add(J);
+					boites.exclude(J);
+					System.out.println("\t J : " + J);	
 			}
 
 		}
 
-		return null;
+		return res;
 
 	}
 
@@ -81,7 +96,6 @@ public class Controller {
 	private SetBoxes BoxInside = new SetBoxes(); // X*
 
 	/**
-	 * 
 	 * @param depth
 	 * @param Volume
 	 */
@@ -224,11 +238,11 @@ public class Controller {
 		}
 
 		// ###print the rank list for debug
-		System.out.println("*Ranks");
-		for (Integer i : res) {
-			System.out.print("\t" + i);
-		}
-		System.out.println();
+//		System.out.println("*Ranks");
+//		for (Integer i : res) {
+//			System.out.print("\t" + i);
+//		}
+//		System.out.println();
 
 		return res;
 	}
