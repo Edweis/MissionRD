@@ -194,7 +194,7 @@ public class Controller {
 		int KK = capacity;
 		for (int i = feasibleBoxes.size(); i >= 1; i--) {
 			if (keep[i][KK] == 1) {
-				K.add(feasibleBoxes.get(i));
+				K.add(feasibleBoxes.get(i-1));
 				KK = KK - a.get(i - 1);
 			}
 		}
