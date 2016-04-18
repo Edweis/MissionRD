@@ -5,7 +5,7 @@ import java.util.Iterator;
 
 import controller.Controller;
 
-public class SetBoxes implements Iterable<Item> {
+public class SetBoxes implements Iterable<Item>, Cloneable {
 
 	int Vinit = 0;
 
@@ -542,4 +542,9 @@ public class SetBoxes implements Iterable<Item> {
 			set.add(i);
 		}
 	}
+
+	 @Override
+    public SetBoxes clone() throws CloneNotSupportedException {   
+		 return (SetBoxes) super.clone();
+    } 
 }

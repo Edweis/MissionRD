@@ -6,6 +6,7 @@ import model.Item;
 import model.SetBoxes;
 import model.SetBoxesOrganized;
 import model.SetPlanes;
+import model.Solution;
 import usefullFunctions.FillLayer;
 
 public class Controller {
@@ -19,9 +20,6 @@ public class Controller {
 	final private int whichFrequencyFunction = 2; //Number of the frequency function {1, 2, 3}
 
 	
-	// Algorithm Attributes
-	private SetBoxes currentBestFilling = new SetBoxes(); // L
-	private long bestFilling_ObjectiveValue; // U*
 
 	
 	// fill_layer(w/, h/, d', U, N'')
@@ -30,9 +28,10 @@ public class Controller {
 		SetBoxes res = new SetBoxes();
 		
 		// We update the volume of placed boxes
-		if (VolAlreadyPlacedBoxes > bestFilling_ObjectiveValue) {
-			currentBestFilling = boites;
-			bestFilling_ObjectiveValue = VolAlreadyPlacedBoxes;
+		if (VolAlreadyPlacedBoxes > Solution.bestVolume) {
+			Solution.bestAllocation = boites;
+			Solution.bestVolume = VolAlreadyPlacedBoxes;
+			
 			System.out.println("*****\n NOUVEL AJOUT !");
 			System.out.println("  with " + boites.size() +" boxes");
 			System.out.println("  and a total volume of " + VolAlreadyPlacedBoxes);
@@ -52,7 +51,8 @@ public class Controller {
 			boites.rotateBoxesMinWidth();
 
 			M2 = selectBestRank(boites);
-
+			
+			
 			for (Integer w : M2) {
 					System.out.println("**Horiontal** bounds = " + w + "  #boxes = " + boites.size());
 				SetBoxes K = fill_single_strip(height, w, LayerDepth, boites, "height");
@@ -105,8 +105,8 @@ public class Controller {
 
 		if (Volume > Vinit) {
 			Vinit = Volume;
-			for (int i = 0; i < currentBestFilling.size(); i++) {
-				BoxInside.add(currentBestFilling.get(i));
+			for (int i = 0; i < Solution.bestAllocation.size(); i++) {
+				BoxInside.add(Solution.bestAllocation.get(i));
 			}
 		}
 
@@ -117,12 +117,12 @@ public class Controller {
 
 			for (int k = 0; k < depths.size(); k++) {
 				sb.pairBoxes(depths.get(k));
-				currentBestFilling = fill_layer(sp.get(0).getSpaces().get(0).getWidth(),
+				Solution.bestAllocation = fill_layer(sp.get(0).getSpaces().get(0).getWidth(),
 						sp.get(0).getSpaces().get(0).getHeight(), depth, 0, sb);
-				long U = currentBestFilling.getVolume();
-				for (int j = 0; j < currentBestFilling.size(); j++) {
+				long U = Solution.bestAllocation.getVolume();
+				for (int j = 0; j < Solution.bestAllocation.size(); j++) {
 					for (int l = 0; l < sb.size(); l++) {
-						if (currentBestFilling.get(j) == sb.get(l)) {
+						if (Solution.bestAllocation.get(j) == sb.get(l)) {
 							sb.remove(sb.get(l));
 						}
 					}
