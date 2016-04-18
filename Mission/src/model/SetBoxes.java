@@ -545,6 +545,11 @@ public class SetBoxes implements Iterable<Item>, Cloneable {
 
 	 @Override
     public SetBoxes clone() throws CloneNotSupportedException {   
-		 return (SetBoxes) super.clone();
+		 SetBoxes res = new SetBoxes();
+		 for(Item i : this){
+			 res.add(i);
+		 }
+		 
+		 return res;
     } 
 }

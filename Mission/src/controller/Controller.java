@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import model.Item;
 import model.SetBoxes;
-import model.SetBoxesOrganized;
 import model.SetPlanes;
 import model.Solution;
 import usefullFunctions.FillLayer;
@@ -13,34 +12,32 @@ public class Controller {
 
 	// Attributes for processing
 
-	
 	// Attributes for box ranking
-	final private String priorityRule = "b"; // Ranking priority for a set of boxes
+	final private String priorityRule = "b"; // Ranking priority for a set of
+												// boxes
 	final private int sizeOfRankedReturn = 3; // Size of M1 or M2
-	final private int whichFrequencyFunction = 2; //Number of the frequency function {1, 2, 3}
+	final private int whichFrequencyFunction = 2; // Number of the frequency
+													// function {1, 2, 3}
 
-	
-
-	
 	// fill_layer(w/, h/, d', U, N'')
-	public SetBoxes fill_layer(int height, int width, int LayerDepth, long VolAlreadyPlacedBoxes, SetBoxes boites) {
-		
+	public SetBoxes fill_layer(int height, int width, int LayerDepth, long VolAlreadyPlacedBoxes, SetBoxes boites) throws Throwable {
+
 		SetBoxes res = new SetBoxes();
-		
+
 		// We update the volume of placed boxes
-		if (VolAlreadyPlacedBoxes > Solution.bestVolume) {
-			Solution.bestAllocation = boites;
-			Solution.bestVolume = VolAlreadyPlacedBoxes;
-			
+		if (VolAlreadyPlacedBoxes > Solution.FLvolume) {
+			Solution.FLplacedBoxes = boites;
+			Solution.FLvolume = VolAlreadyPlacedBoxes;
+
 			System.out.println("*****\n NOUVEL AJOUT !");
-			System.out.println("  with " + boites.size() +" boxes");
-			System.out.println("  and a total volume of " + VolAlreadyPlacedBoxes);
+			System.out.println("  with " + boites.size() + " boxes");
+			System.out.println("  and a total volume of " + 0.1 * VolAlreadyPlacedBoxes / 100000 + " m³");
 			System.out.println("*****");
 		}
 
 		// If it remains boxes witch can fit in the space, we continue.
-		int ll = boites.shortestEdge(); // l = min{w, h, d)
-		if (width < ll || height < ll) {
+		int l = boites.shortestEdge(); // l = min{w, h, d)
+		if (width < l || height < l) {
 			return res;
 		} else {
 			ArrayList<Integer> M2;
@@ -51,21 +48,19 @@ public class Controller {
 			boites.rotateBoxesMinWidth();
 
 			M2 = selectBestRank(boites);
-			
-			
+
+			SetBoxes cpBoites;
 			for (Integer w : M2) {
-					System.out.println("**Horiontal** bounds = " + w + "  #boxes = " + boites.size());
-				SetBoxes K = fill_single_strip(height, w, LayerDepth, boites, "height");
-					res.add(K);
-					boites.exclude(K);
-					System.out.println("\t K : " + K);
-				
-				SetBoxes J = fill_layer(height, width - w, LayerDepth, VolAlreadyPlacedBoxes + K.getVolume(), boites);
-					res.add(J);
-					boites.exclude(J);
-					System.out.println("\t J : " + J);
+				cpBoites = boites.clone();
+
+				System.out.println("**Horiontal** bounds = " + w + "  #boxes = " + cpBoites.size());
+				SetBoxes K = fill_single_strip(height, w, LayerDepth, cpBoites, "height");
+					cpBoites.exclude(K);
+				SetBoxes J = fill_layer(height, width - w, LayerDepth, VolAlreadyPlacedBoxes + K.getVolume(), cpBoites);
+				System.out.println("\t J : " + J);
 			}
 
+			
 			/**
 			 * PACK VERTICAL STRIP
 			 */
@@ -73,21 +68,20 @@ public class Controller {
 			M2 = selectBestRank(boites);
 
 			for (Integer h : M2) {
-					System.out.println("**Vertical  bounds = "+h+"  #boxes = " + boites.size());
-				SetBoxes K = fill_single_strip(h, width, LayerDepth, boites, "width");
-					res.add(K);
-					boites.exclude(K);
+				cpBoites = boites.clone();
+
+					System.out.println("**Vertical  bounds = " + h + "  #boxes = " + cpBoites.size());
+				SetBoxes K = fill_single_strip(h, width, LayerDepth, cpBoites, "width");
+					cpBoites.exclude(K);
 					System.out.println("\t K : " + K);
-				
-				SetBoxes J = fill_layer(height - h, width, LayerDepth, VolAlreadyPlacedBoxes + K.getVolume(), boites);
-					res.add(J);
-					boites.exclude(J);
-					System.out.println("\t J : " + J);	
+
+				SetBoxes J = fill_layer(height - h, width, LayerDepth, VolAlreadyPlacedBoxes + K.getVolume(), cpBoites);
+				System.out.println("\t J : " + J);
 			}
 
 		}
 
-		return res;
+		return Solution.FLplacedBoxes;
 
 	}
 
@@ -98,15 +92,16 @@ public class Controller {
 	/**
 	 * @param depth
 	 * @param Volume
+	 * @throws Throwable
 	 */
-	public void chooseDepth(int depth, long Volume, SetBoxes sb, SetPlanes sp) {
+	public void chooseDepth(int depth, long Volume, SetBoxes sb, SetPlanes sp) throws Throwable {
 
 		ArrayList<Integer> depths = new ArrayList<Integer>();
 
 		if (Volume > Vinit) {
 			Vinit = Volume;
-			for (int i = 0; i < Solution.bestAllocation.size(); i++) {
-				BoxInside.add(Solution.bestAllocation.get(i));
+			for (int i = 0; i < Solution.FLplacedBoxes.size(); i++) {
+				BoxInside.add(Solution.FLplacedBoxes.get(i));
 			}
 		}
 
@@ -117,12 +112,12 @@ public class Controller {
 
 			for (int k = 0; k < depths.size(); k++) {
 				sb.pairBoxes(depths.get(k));
-				Solution.bestAllocation = fill_layer(sp.get(0).getSpaces().get(0).getWidth(),
+				Solution.FLplacedBoxes = fill_layer(sp.get(0).getSpaces().get(0).getWidth(),
 						sp.get(0).getSpaces().get(0).getHeight(), depth, 0, sb);
-				long U = Solution.bestAllocation.getVolume();
-				for (int j = 0; j < Solution.bestAllocation.size(); j++) {
+				long U = Solution.FLplacedBoxes.getVolume();
+				for (int j = 0; j < Solution.FLplacedBoxes.size(); j++) {
 					for (int l = 0; l < sb.size(); l++) {
-						if (Solution.bestAllocation.get(j) == sb.get(l)) {
+						if (Solution.FLplacedBoxes.get(j) == sb.get(l)) {
 							sb.remove(sb.get(l));
 						}
 					}
@@ -194,7 +189,7 @@ public class Controller {
 		int KK = capacity;
 		for (int i = feasibleBoxes.size(); i >= 1; i--) {
 			if (keep[i][KK] == 1) {
-				K.add(feasibleBoxes.get(i-1));
+				K.add(feasibleBoxes.get(i - 1));
 				KK = KK - a.get(i - 1);
 			}
 		}
@@ -238,11 +233,11 @@ public class Controller {
 		}
 
 		// ###print the rank list for debug
-//		System.out.println("*Ranks");
-//		for (Integer i : res) {
-//			System.out.print("\t" + i);
-//		}
-//		System.out.println();
+		// System.out.println("*Ranks");
+		// for (Integer i : res) {
+		// System.out.print("\t" + i);
+		// }
+		// System.out.println();
 
 		return res;
 	}

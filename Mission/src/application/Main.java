@@ -13,13 +13,13 @@ public class Main {
 
 	public static int niveau = 0;
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Throwable {
 		FrancoisTests();
 		// CharlieTests();
 		// PierreTests();
 	}
 
-	private static void FrancoisTests() {
+	private static void FrancoisTests() throws Throwable {
 		Item container = new Item(600, 300, 1000);
 //		SetBoxes myBoxes = BoxesFactory.generateBoxes(container, 3, 0.9, 200, 300);
 //		BoxesFactory.exportBoxes(myBoxes, "mesboites.txt");
