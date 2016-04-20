@@ -66,7 +66,7 @@ public class SetBoxes implements Iterable<Item>, Cloneable {
 
 		double[] calcul = new double[set.size()];
 		int indexmax = 0;
-		int calculmax = 0;
+		double calculmax = 0;
 
 		for (int k = 0; k < set.size(); k++) {
 
@@ -96,6 +96,7 @@ public class SetBoxes implements Iterable<Item>, Cloneable {
 			// Calculates the ratio dj/d
 			calcul[k] = (double) (set.get(k).getDepth() / d);
 			if (calcul[k] > calculmax) {
+				calculmax = calcul[k];
 				indexmax = k;
 			}
 		}
@@ -110,34 +111,35 @@ public class SetBoxes implements Iterable<Item>, Cloneable {
 
 		Item it = rotateBoxesMaxDepth(depth);
 		cpb = rotatePairBoxes(depth, it);
-
-		if (cpb.getPos() == "up") {
-			set.get(set.indexOf(it)).switchDimension("hd");
-			if (cpb.getRot() == "hd") {
-				set.get(cpb.getIndexitem()).switchDimension("hd");
-			} else if (cpb.getRot() == "wd") {
-				set.get(cpb.getIndexitem()).switchDimension("wd");
+		if (cpb != null) {
+			if (cpb.getPos() == "up") {
+				set.get(set.indexOf(it)).switchDimension("hd");
+				if (cpb.getRot() == "hd") {
+					set.get(cpb.getIndexitem()).switchDimension("hd");
+				} else if (cpb.getRot() == "wd") {
+					set.get(cpb.getIndexitem()).switchDimension("wd");
+				}
+			} else if (cpb.getPos() == "next") {
+				set.get(set.indexOf(it)).switchDimension("wd");
+				if (cpb.getRot() == "hd") {
+					set.get(cpb.getIndexitem()).switchDimension("hd");
+				} else if (cpb.getRot() == "wd") {
+					set.get(cpb.getIndexitem()).switchDimension("wd");
+				}
+			} else if (cpb.getPos() == "behind") {
+				if (cpb.getRot() == "hd") {
+					set.get(cpb.getIndexitem()).switchDimension("hd");
+				} else if (cpb.getRot() == "wd") {
+					set.get(cpb.getIndexitem()).switchDimension("wd");
+				}
 			}
-		} else if (cpb.getPos() == "next") {
-			set.get(set.indexOf(it)).switchDimension("wd");
-			if (cpb.getRot() == "hd") {
-				set.get(cpb.getIndexitem()).switchDimension("hd");
-			} else if (cpb.getRot() == "wd") {
-				set.get(cpb.getIndexitem()).switchDimension("wd");
-			}
-		} else if (cpb.getPos() == "behind") {
-			if (cpb.getRot() == "hd") {
-				set.get(cpb.getIndexitem()).switchDimension("hd");
-			} else if (cpb.getRot() == "wd") {
-				set.get(cpb.getIndexitem()).switchDimension("wd");
-			}
+			Item i = new Item(Math.max(set.get(set.indexOf(it)).getHeight(), set.get(cpb.getIndexitem()).getHeight()),
+					Math.max(set.get(set.indexOf(it)).getWidth(), set.get(cpb.getIndexitem()).getWidth()), depth);
+			set.remove(set.indexOf(it));
+			set.remove(cpb.getIndexitem());
+			set.add(i);
+			set.trimToSize();
 		}
-		Item i = new Item(Math.max(set.get(set.indexOf(it)).getHeight(), set.get(cpb.getIndexitem()).getHeight()),
-				Math.max(set.get(set.indexOf(it)).getWidth(), set.get(cpb.getIndexitem()).getWidth()), depth);
-		set.remove(set.indexOf(it));
-		set.remove(cpb.getIndexitem());
-		set.add(i);
-		set.trimToSize();
 	}
 
 	/**
@@ -173,7 +175,7 @@ public class SetBoxes implements Iterable<Item>, Cloneable {
 		double vi = set.get(set.indexOf(it)).getVolume();
 		double vj = 0;
 		int n = 0;
-		int index = 0;
+		int index = Integer.MAX_VALUE;
 		double max = 0;
 		double b, c;
 
@@ -228,15 +230,17 @@ public class SetBoxes implements Iterable<Item>, Cloneable {
 					switchAllDimensions(it, rot);
 				}
 				vj = set.get(n).getVolume();
+				System.out.println(Math.max(set.get(set.indexOf(it)).getWidth(), set.get(n).getWidth()));
+				System.out.println(Math.max(set.get(set.indexOf(it)).getHeight(), set.get(n).getHeight()));
 				b = (vi + vj) / (depth * Math.max(set.get(set.indexOf(it)).getWidth(), set.get(n).getWidth())
 						* Math.max(set.get(set.indexOf(it)).getHeight(), set.get(n).getHeight()));
 				c = set.get(set.indexOf(it)).getDepth() + set.get(n).getDepth();
 				CalculPairBoxes cpb = new CalculPairBoxes(n, b, c, rot, pos);
 				calcul[k] = cpb;
 			} else {
-				n++;
 				k--;
 			}
+			n++;
 		}
 		switchAllDimensions(it, "dh");
 		set.get(set.indexOf(it)).switchDimension("dw");
@@ -249,8 +253,11 @@ public class SetBoxes implements Iterable<Item>, Cloneable {
 				}
 			}
 		}
-
-		return calcul[index];
+		if (index != Integer.MAX_VALUE) {
+			return calcul[index];
+		}
+		CalculPairBoxes cpb2= new CalculPairBoxes();
+		return cpb2=null;
 	}
 
 	/**
@@ -543,13 +550,13 @@ public class SetBoxes implements Iterable<Item>, Cloneable {
 		}
 	}
 
-	 @Override
-    public SetBoxes clone() throws CloneNotSupportedException {   
-		 SetBoxes res = new SetBoxes();
-		 for(Item i : this){
-			 res.add(i);
-		 }
-		 
-		 return res;
-    } 
+	@Override
+	public SetBoxes clone() throws CloneNotSupportedException {
+		SetBoxes res = new SetBoxes();
+		for (Item i : this) {
+			res.add(i);
+		}
+
+		return res;
+	}
 }

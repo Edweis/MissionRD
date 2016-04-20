@@ -6,17 +6,20 @@ import controller.Controller;
 import excel.ObjetExcel;
 import excel.ReadExcel;
 import model.Item;
+import model.Plane;
 import model.SetBoxes;
+import model.SetPlanes;
 import model.Factories.BoxesFactory;
+import model.Factories.PlanesFactory;
 
 public class Main {
 
 	public static int niveau = 0;
 
 	public static void main(String[] args) throws Throwable {
-		FrancoisTests();
+		//FrancoisTests();
 		// CharlieTests();
-		// PierreTests();
+		 PierreTests();
 	}
 
 	private static void FrancoisTests() throws Throwable {
@@ -36,15 +39,26 @@ public class Main {
 		// d.start(new Stage());
 	}
 
-	private static void PierreTests() {
+	private static void PierreTests() throws Throwable {
 
-		// Crï¿½ation des boï¿½tes
-		ReadExcel re = new ReadExcel();
-		ArrayList<ObjetExcel> liste = re.read();
-		BoxesFactory bf = new BoxesFactory();
-		SetBoxes sb = bf.createBoxes(liste);
+		// Creation des boites
+		/*ReadExcel re = new ReadExcel();
+		ArrayList<ObjetExcel> liste = re.read();*/
+		
+		SetBoxes sb = BoxesFactory.importBoxes("mesboites.txt");
+		System.out.println("Nb boîte en entrée :"+sb.size());
+		System.out.println("Volume des boîtes en entrée :"+sb.getVolume());
 
-		// Crï¿½ation des avions
+		// Creation des avions
+		SetPlanes sp=PlanesFactory.importPlanes("Planes Data Storage Of The Sky.csv");
+		Controller c = new Controller();
+		System.out.println("Volume du Container :"+sp.get(0).getSpaces().get(0).getVolume());
+		
+		int d=sp.get(0).getSpaces().get(0).getDepth();
+		long v =(long) sp.get(0).getSpaces().get(0).getVolume();
+		SetBoxes B=c.chooseDepth(d,v , sb, sp);
+		System.out.println("Nb boîte en sortie :"+B.size());
+		System.out.println("Volume des boites :"+B.getVolume());
 
 	}
 

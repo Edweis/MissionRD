@@ -20,7 +20,8 @@ public class Controller {
 													// function {1, 2, 3}
 
 	// fill_layer(w/, h/, d', U, N'')
-	public SetBoxes fill_layer(int height, int width, int LayerDepth, long VolAlreadyPlacedBoxes, SetBoxes boites) throws Throwable {
+	public SetBoxes fill_layer(int height, int width, int LayerDepth, long VolAlreadyPlacedBoxes, SetBoxes boites)
+			throws Throwable {
 
 		SetBoxes res = new SetBoxes();
 
@@ -55,12 +56,11 @@ public class Controller {
 
 				System.out.println("**Horiontal** bounds = " + w + "  #boxes = " + cpBoites.size());
 				SetBoxes K = fill_single_strip(height, w, LayerDepth, cpBoites, "height");
-					cpBoites.exclude(K);
+				cpBoites.exclude(K);
 				SetBoxes J = fill_layer(height, width - w, LayerDepth, VolAlreadyPlacedBoxes + K.getVolume(), cpBoites);
 				System.out.println("\t J : " + J);
 			}
 
-			
 			/**
 			 * PACK VERTICAL STRIP
 			 */
@@ -70,10 +70,10 @@ public class Controller {
 			for (Integer h : M2) {
 				cpBoites = boites.clone();
 
-					System.out.println("**Vertical  bounds = " + h + "  #boxes = " + cpBoites.size());
+				System.out.println("**Vertical  bounds = " + h + "  #boxes = " + cpBoites.size());
 				SetBoxes K = fill_single_strip(h, width, LayerDepth, cpBoites, "width");
-					cpBoites.exclude(K);
-					System.out.println("\t K : " + K);
+				cpBoites.exclude(K);
+				System.out.println("\t K : " + K);
 
 				SetBoxes J = fill_layer(height - h, width, LayerDepth, VolAlreadyPlacedBoxes + K.getVolume(), cpBoites);
 				System.out.println("\t J : " + J);
@@ -91,42 +91,44 @@ public class Controller {
 
 	/**
 	 * @param depth
-	 * @param Volume
+	 * @param v
 	 * @throws Throwable
 	 */
-	public void chooseDepth(int depth, long Volume, SetBoxes sb, SetPlanes sp) throws Throwable {
+	public SetBoxes chooseDepth(int depth, long v, SetBoxes sb, SetPlanes sp) throws Throwable {
 
 		ArrayList<Integer> depths = new ArrayList<Integer>();
 
-		if (Volume > Vinit) {
-			Vinit = Volume;
+		if (v > Vinit) {
+			Vinit = (long) v;
 			for (int i = 0; i < Solution.FLplacedBoxes.size(); i++) {
 				BoxInside.add(Solution.FLplacedBoxes.get(i));
 			}
 		}
 
 		for (int i = 0; i < sb.size(); i++) {
-			if (depth < sb.get(0).minEdge()) {
-				depths = selectBestRank(sb);
+			if (depth < sb.get(i).minEdge()) {
+				return null;
 			}
-
-			for (int k = 0; k < depths.size(); k++) {
+		}
+		depths = selectBestRank(sb);
+		for (int k = 0; k < depths.size(); k++) {
+			if (sb.size() > 1) {
 				sb.pairBoxes(depths.get(k));
-				Solution.FLplacedBoxes = fill_layer(sp.get(0).getSpaces().get(0).getWidth(),
-						sp.get(0).getSpaces().get(0).getHeight(), depth, 0, sb);
-				long U = Solution.FLplacedBoxes.getVolume();
-				for (int j = 0; j < Solution.FLplacedBoxes.size(); j++) {
-					for (int l = 0; l < sb.size(); l++) {
-						if (Solution.FLplacedBoxes.get(j) == sb.get(l)) {
-							sb.remove(sb.get(l));
-						}
+			}
+			Solution.FLplacedBoxes = fill_layer(sp.get(0).getSpaces().get(0).getWidth(),
+					sp.get(0).getSpaces().get(0).getHeight(), depth, 0, sb);
+			long U = Solution.FLplacedBoxes.getVolume();
+			for (int j = 0; j < Solution.FLplacedBoxes.size(); j++) {
+				for (int l = 0; l < sb.size(); l++) {
+					if (Solution.FLplacedBoxes.get(j) == sb.get(l)) {
+						sb.remove(sb.get(l));
+
 					}
 				}
-				chooseDepth(depth - depths.get(k), Volume + U, sb, sp);
 			}
-
+			chooseDepth(depth - depths.get(k), v + U, sb, sp);
 		}
-
+return BoxInside;
 	}
 
 	public SetBoxes fill_single_strip(int stripH, int stripW, int stripD, SetBoxes boxes, String contrainte) {

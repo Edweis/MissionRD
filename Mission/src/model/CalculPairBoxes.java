@@ -8,6 +8,10 @@ public class CalculPairBoxes {
 	private String rot;
 	private String pos;
 
+	public CalculPairBoxes(){
+		
+	}
+	
 	public CalculPairBoxes(int a, double b, double c, String d, String e) {
 		indexitem = a;
 		beta = b;
